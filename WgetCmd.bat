@@ -1,4 +1,5 @@
 @echo off
+IF EXIST C:\Windows\System32\wget.exe echo Execuction Exitosa & echo [+] Salendo... & timeout /T 2 >nul & Exit
 IF NOT EXIST C:\Windows\System32\wget.exe goto 32o64
 :32o64
 if $SYSTEM_os_arch==x86 (
