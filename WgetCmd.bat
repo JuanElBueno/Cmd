@@ -9,5 +9,5 @@ echo Usando 32bits & timeout /T 3 >nul & echo [+] Salendo... & timeout /T 2 >nul
 ) else (
 cd C:\Windows\System32
 powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.1/64/wget.exe' -OutFile 'wget.exe'
-echo Usando 64bits & timeout /T 3s >nul & echo [+] Salendo... & timeout /T 2 >nul & Exit
+echo Usando 64bits & timeout /T 3 >nul & echo [+] Salendo... & timeout /T 2 >nul & Exit
 )
