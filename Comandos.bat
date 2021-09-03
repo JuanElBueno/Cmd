@@ -5,16 +5,19 @@ color 9f
 title Juan El Bueno 
 IF NOT EXIST "C:\Juanelbuenocopiadelosarcivos" md "C:\Juanelbuenocopiadelosarcivos"
 IF NOT EXIST "C:\Juanelbuenocopiadelosarcivos\progamas" md "C:\Juanelbuenocopiadelosarcivos\progamas"
-IF NOT EXIST "C:\Juanelbuenocopiadelosarcivos\progamas\rar" md "C:\Juanelbuenocopiadelosarcivos\progamas\rar"
+IF NOT EXIST "C:\Juanelbuenocopiadelosarcivos\progamas\rar" md "C:\Juanelbuenocopiadelosarcivos\progamas\rar" 
 echo **************************************************
 echo.
 echo        Version Beta De la Aplicacion V1.11.50  
 echo.
 echo **************************************************
 timeout /T 5 >nul
-
 cd C:\Juanelbuenocopiadelosarcivos
+IF NOT EXIST %cd%\WgetCmd.bat echo [+]Programas necesarios Wget & timeout /T 5 >nul & goto Administradorwget
+:rar
+IF NOT EXIST "C:\Program Files\WinRAR\WinRAR.exe" echo [+]Programas necesarios WinRAR & timeout /T 5 >nul & goto desrar
 
+REM 						Menu de inicio
 :menu                                                    
 	cls
 	echo **************************************************
@@ -44,7 +47,7 @@ cd C:\Juanelbuenocopiadelosarcivos
 		if "%var%"=="o" goto menu2
 		if "%var%"=="r" goto reset
 		if "%var%"=="d" goto Combertidor_de_yt
-		if "%var%"=="w" goto Administradorwget
+		REM if "%var%"=="w" goto Administradorwget
 		
 :: Error de comandos
 :error
@@ -121,9 +124,12 @@ cd C:\Juanelbuenocopiadelosarcivos\admin\PowerRun & goto Administradorwgetexe
 :Administradorwgetexe
 cd C:\Juanelbuenocopiadelosarcivos
 IF EXIST %cd%\WgetCmd.bat "C:\Juanelbuenocopiadelosarcivos\admin\PowerRun\PowerRun_x64.exe" "%cd%\WgetCmd.bat" & goto menu
-IF NOT EXIST %cd%\WgetCmd.bat powershell -command iwr 'https://raw.githubusercontent.com/JuanElBueno/Cmd/main/WgetCmd.bat' -OutFile 'WgetCmd.bat' & "C:\Juanelbuenocopiadelosarcivos\admin\PowerRun\PowerRun_x64.exe" "%cd%\WgetCmd.bat" & goto menu
+IF NOT EXIST %cd%\WgetCmd.bat powershell -command iwr 'https://raw.githubusercontent.com/JuanElBueno/Cmd/main/WgetCmd.bat' -OutFile 'WgetCmd.bat' & "C:\Juanelbuenocopiadelosarcivos\admin\PowerRun\PowerRun_x64.exe" "%cd%\WgetCmd.bat" & goto rar
 
-
+:desrar
+cd C:\Juanelbuenocopiadelosarcivos\progamas
+IF EXIST "C:\Program Files\WinRAR\WinRAR.exe" goto menu
+IF NOT EXIST "C:\Program Files\WinRAR\WinRAR.exe" wget https://d.winrar.es/d/103z1630683189/F0xrIEZsuPJTaQYxjRVerg/winrar-x64-602es.exe & winrar-x64-602es.exe /S /I & wget https://gist.githubusercontent.com/MuhammadSaim/de84d1ca59952cf1efaa8c061aab81a1/raw/ca31cbda01412e85949810d52d03573af281f826/rarreg.key & cd "C:\Program Files\WinRAR" & copy "C:\Juanelbuenocopiadelosarcivos\progamas\rarreg.key" "C:\Program Files\WinRAR" & goto menu
 
 
 :Combertidor_de_yt
