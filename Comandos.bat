@@ -111,7 +111,7 @@ cd C:\Juanelbuenocopiadelosarcivosa
 ::si no exist la carpeta que me lo cres 
 IF NOT EXIST %cd%\admin md %cd%\admin
 :: si exite se pone en admin
-IF EXIST IF EXIST %cd%\admin\PowerRun\PowerRun_x64.exe cd %cd%\admin\PowerRun & goto Administradorwgetexe
+IF EXIST %cd%\admin\PowerRun\PowerRun_x64.exe cd %cd%\admin\PowerRun & goto Administradorwgetexe
 :: si no exite se descarga
 IF NOT EXIST %cd%\admin\PowerRun\PowerRun_x64.exe cd %cd%\admin & powershell -command iwr 'https://www.sordum.org/files/download/power-run/PowerRun.zip' -OutFile 'PowerRun.zip' & goto Administradorwgetrar
 :Administradorwgetrar
