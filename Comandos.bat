@@ -8,7 +8,7 @@ IF NOT EXIST "C:\Juanelbuenocopiadelosarcivos\progamas" md "C:\Juanelbuenocopiad
 IF NOT EXIST "C:\Juanelbuenocopiadelosarcivos\progamas\rar" md "C:\Juanelbuenocopiadelosarcivos\progamas\rar" 
 echo **************************************************
 echo.
-echo        Version Beta De la Aplicacion V1.11.50  
+echo        Version Beta De la Aplicacion V1.12.00  
 echo.
 echo **************************************************
 timeout /T 5 >nul
