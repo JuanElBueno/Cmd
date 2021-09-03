@@ -8,7 +8,7 @@ IF NOT EXIST "C:\Juanelbuenocopiadelosarcivos\progamas" md "C:\Juanelbuenocopiad
 IF NOT EXIST "C:\Juanelbuenocopiadelosarcivos\progamas\rar" md "C:\Juanelbuenocopiadelosarcivos\progamas\rar"
 echo **************************************************
 echo.
-echo        Version Beta De la Aplicacion V1.11.10  
+echo        Version Beta De la Aplicacion V1.11.50  
 echo.
 echo **************************************************
 timeout /T 5 >nul
@@ -89,37 +89,39 @@ cls
 goto menu
 
 :Administradorcmd
+cd C:\Juanelbuenocopiadelosarcivos
 ::powershell -command iwr 'https://www.sordum.org/files/download/power-run/PowerRun.zip' -OutFile 'PowerRun.zip'
 ::si no exist la carpeta que me lo cres 
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\admin md C:\Juanelbuenocopiadelosarcivos\admin
-cd C:\Juanelbuenocopiadelosarcivos\admin
+IF NOT EXIST %cd%\admin md %cd%\admin
 :: si exite se pone en admin
-IF EXIST C:\Juanelbuenocopiadelosarcivos\admin\PowerRun\PowerRun_x64.exe cd C:\Juanelbuenocopiadelosarcivos\admin\PowerRun & goto exploreradmin
+IF EXIST %cd%\admin\PowerRun\PowerRun_x64.exe cd %cd%\admin\PowerRun & goto exploreradmin
 :: si no exite se descarga
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\admin\PowerRun\PowerRun_x64.exe cd C:\Juanelbuenocopiadelosarcivos\admin & powershell -command iwr 'https://www.sordum.org/files/download/power-run/PowerRun.zip' -OutFile 'PowerRun.zip' & goto Administradorcmdrar
+IF NOT EXIST %cd%\admin\PowerRun\PowerRun_x64.exe cd %cd%\admin & powershell -command iwr 'https://www.sordum.org/files/download/power-run/PowerRun.zip' -OutFile 'PowerRun.zip' & goto Administradorcmdrar
 :Administradorcmdrar
-"C:\Program Files\WinRAR\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\admin\PowerRun.zip C:\Juanelbuenocopiadelosarcivos\admin
-cd C:\Juanelbuenocopiadelosarcivos\admin\PowerRun & goto exploreradmin
+cd C:\Juanelbuenocopiadelosarcivos\admin
+"C:\Program Files\WinRAR\WinRAR.exe" x %cd%\PowerRun.zip %cd% & goto exploreradmin
 :exploreradmin
-PowerRun_x64.exe "C:\Users\juang\Desktop\Comandos.bat" & Exit
+cd C:\Juanelbuenocopiadelosarcivos\admin\PowerRun
+"%cd%\PowerRun_x64.exe" "%UserProfile%\Desktop\Comandos.bat" & echo [+] Salendo... & timeout /T 2 >nul & Exit 
 
 ::***************************************************************************************
 
 :Administradorwget
+cd C:\Juanelbuenocopiadelosarcivosa
 ::si no exist la carpeta que me lo cres 
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\admin md C:\Juanelbuenocopiadelosarcivos\admin
-cd C:\Juanelbuenocopiadelosarcivos\admin
+IF NOT EXIST %cd%\admin md %cd%\admin
 :: si exite se pone en admin
-IF EXIST C:\Juanelbuenocopiadelosarcivos\admin\PowerRun\PowerRun_x64.exe cd C:\Juanelbuenocopiadelosarcivos\admin\PowerRun & goto Administradorwgetexe
+IF EXIST IF EXIST %cd%\admin\PowerRun\PowerRun_x64.exe cd %cd%\admin\PowerRun & goto Administradorwgetexe
 :: si no exite se descarga
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\admin\PowerRun\PowerRun_x64.exe cd C:\Juanelbuenocopiadelosarcivos\admin & powershell -command iwr 'https://www.sordum.org/files/download/power-run/PowerRun.zip' -OutFile 'PowerRun.zip' & goto Administradorwgetrar
+IF NOT EXIST %cd%\admin\PowerRun\PowerRun_x64.exe cd %cd%\admin & powershell -command iwr 'https://www.sordum.org/files/download/power-run/PowerRun.zip' -OutFile 'PowerRun.zip' & goto Administradorwgetrar
 :Administradorwgetrar
-"C:\Program Files\WinRAR\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\admin\PowerRun.zip C:\Juanelbuenocopiadelosarcivos\admin
+d C:\Juanelbuenocopiadelosarcivos\admin
+"C:\Program Files\WinRAR\WinRAR.exe" x %cd%\PowerRun.zip %cd%
 cd C:\Juanelbuenocopiadelosarcivos\admin\PowerRun & goto Administradorwgetexe
 :Administradorwgetexe
 cd C:\Juanelbuenocopiadelosarcivos
-IF EXIST C:\Juanelbuenocopiadelosarcivos\WgetCmd.bat "C:\Juanelbuenocopiadelosarcivos\admin\PowerRun\PowerRun_x64.exe" "C:\Juanelbuenocopiadelosarcivos\WgetCmd.bat" & goto menu
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\WgetCmd.bat powershell -command iwr 'https://raw.githubusercontent.com/JuanElBueno/Cmd/main/WgetCmd.bat' -OutFile 'WgetCmd.bat' &"C:\Juanelbuenocopiadelosarcivos\admin\PowerRun\PowerRun_x64.exe" "C:\Juanelbuenocopiadelosarcivos\WgetCmd.bat" & goto menu
+IF EXIST %cd%\WgetCmd.bat "C:\Juanelbuenocopiadelosarcivos\admin\PowerRun\PowerRun_x64.exe" "%cd%\WgetCmd.bat" & goto menu
+IF NOT EXIST %cd%\WgetCmd.bat powershell -command iwr 'https://raw.githubusercontent.com/JuanElBueno/Cmd/main/WgetCmd.bat' -OutFile 'WgetCmd.bat' & "C:\Juanelbuenocopiadelosarcivos\admin\PowerRun\PowerRun_x64.exe" "%cd%\WgetCmd.bat" & goto menu
 
 
 
