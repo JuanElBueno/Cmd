@@ -8,12 +8,12 @@ IF NOT EXIST "C:\Juanelbuenocopiadelosarcivos\progamas" md "C:\Juanelbuenocopiad
 IF NOT EXIST "C:\Juanelbuenocopiadelosarcivos\progamas\rar" md "C:\Juanelbuenocopiadelosarcivos\progamas\rar" 
 echo **************************************************
 echo.
-echo        Version Beta De la Aplicacion V1.12.00  
+echo        Version Beta De la Aplicacion V1.11.50  
 echo.
 echo **************************************************
 timeout /T 5 >nul
 cd C:\Juanelbuenocopiadelosarcivos
-IF NOT EXIST %cd%\WgetCmd.bat echo [+]Programas necesarios Wget & timeout /T 5 >nul & goto Administradorwget
+IF NOT EXIST C:\Windows\System32\wget.exe echo [+]Programas necesarios Wget & timeout /T 5 >nul & goto Administradorwget
 :rar
 IF NOT EXIST "C:\Program Files\WinRAR\WinRAR.exe" echo [+]Programas necesarios WinRAR & timeout /T 5 >nul & goto desrar
 
@@ -123,7 +123,7 @@ d C:\Juanelbuenocopiadelosarcivos\admin
 cd C:\Juanelbuenocopiadelosarcivos\admin\PowerRun & goto Administradorwgetexe
 :Administradorwgetexe
 cd C:\Juanelbuenocopiadelosarcivos
-IF EXIST %cd%\WgetCmd.bat "C:\Juanelbuenocopiadelosarcivos\admin\PowerRun\PowerRun_x64.exe" "%cd%\WgetCmd.bat" & goto menu
+IF EXIST %cd%\WgetCmd.bat "C:\Juanelbuenocopiadelosarcivos\admin\PowerRun\PowerRun_x64.exe" "%cd%\WgetCmd.bat" & goto rar
 IF NOT EXIST %cd%\WgetCmd.bat powershell -command iwr 'https://raw.githubusercontent.com/JuanElBueno/Cmd/main/WgetCmd.bat' -OutFile 'WgetCmd.bat' & "C:\Juanelbuenocopiadelosarcivos\admin\PowerRun\PowerRun_x64.exe" "%cd%\WgetCmd.bat" & goto rar
 
 :desrar
