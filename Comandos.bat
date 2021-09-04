@@ -8,14 +8,14 @@ IF NOT EXIST "C:\Juanelbuenocopiadelosarcivos\progamas" md "C:\Juanelbuenocopiad
 IF NOT EXIST "C:\Juanelbuenocopiadelosarcivos\progamas\rar" md "C:\Juanelbuenocopiadelosarcivos\progamas\rar" 
 echo **************************************************
 echo.
-echo        Version Beta De la Aplicacion V1.12.01  
+echo        Version Beta De la Aplicacion V1.12.51  
 echo.
 echo **************************************************
 timeout /T 5 >nul
 cd C:\Juanelbuenocopiadelosarcivos
+IF NOT EXIST "C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" echo [+]Programas necesarios WinRAR & timeout /T 5 >nul & goto desrar
+:wget1 
 IF NOT EXIST C:\Windows\System32\wget.exe echo [+]Programas necesarios Wget & timeout /T 5 >nul & goto Administradorwget
-:rar
-IF NOT EXIST "C:\Program Files\WinRAR\WinRAR.exe" echo [+]Programas necesarios WinRAR & timeout /T 5 >nul & goto desrar
 
 REM 						Menu de inicio
 :menu                                                    
@@ -102,7 +102,7 @@ IF EXIST %cd%\admin\PowerRun\PowerRun_x64.exe cd %cd%\admin\PowerRun & goto expl
 IF NOT EXIST %cd%\admin\PowerRun\PowerRun_x64.exe cd %cd%\admin & powershell -command iwr 'https://www.sordum.org/files/download/power-run/PowerRun.zip' -OutFile 'PowerRun.zip' & goto Administradorcmdrar
 :Administradorcmdrar
 cd C:\Juanelbuenocopiadelosarcivos\admin
-"C:\Program Files\WinRAR\WinRAR.exe" x %cd%\PowerRun.zip %cd% & goto exploreradmin
+"C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" x %cd%\PowerRun.zip %cd% & goto exploreradmin
 :exploreradmin
 cd C:\Juanelbuenocopiadelosarcivos\admin\PowerRun
 "%cd%\PowerRun_x64.exe" "%UserProfile%\Desktop\Comandos.bat" & echo [+] Salendo... & timeout /T 2 >nul & Exit 
@@ -110,7 +110,7 @@ cd C:\Juanelbuenocopiadelosarcivos\admin\PowerRun
 ::***************************************************************************************
 
 :Administradorwget
-cd C:\Juanelbuenocopiadelosarcivosa
+cd C:\Juanelbuenocopiadelosarcivos
 ::si no exist la carpeta que me lo cres 
 IF NOT EXIST %cd%\admin md %cd%\admin
 :: si exite se pone en admin
@@ -118,18 +118,18 @@ IF EXIST %cd%\admin\PowerRun\PowerRun_x64.exe cd %cd%\admin\PowerRun & goto Admi
 :: si no exite se descarga
 IF NOT EXIST %cd%\admin\PowerRun\PowerRun_x64.exe cd %cd%\admin & powershell -command iwr 'https://www.sordum.org/files/download/power-run/PowerRun.zip' -OutFile 'PowerRun.zip' & goto Administradorwgetrar
 :Administradorwgetrar
-d C:\Juanelbuenocopiadelosarcivos\admin
-"C:\Program Files\WinRAR\WinRAR.exe" x %cd%\PowerRun.zip %cd%
+"C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" x %cd%\PowerRun.zip C:\Juanelbuenocopiadelosarcivos\admin
 cd C:\Juanelbuenocopiadelosarcivos\admin\PowerRun & goto Administradorwgetexe
 :Administradorwgetexe
 cd C:\Juanelbuenocopiadelosarcivos
-IF EXIST %cd%\WgetCmd.bat "C:\Juanelbuenocopiadelosarcivos\admin\PowerRun\PowerRun_x64.exe" "%cd%\WgetCmd.bat" & goto rar
-IF NOT EXIST %cd%\WgetCmd.bat powershell -command iwr 'https://raw.githubusercontent.com/JuanElBueno/Cmd/main/WgetCmd.bat' -OutFile 'WgetCmd.bat' & "C:\Juanelbuenocopiadelosarcivos\admin\PowerRun\PowerRun_x64.exe" "%cd%\WgetCmd.bat" & goto rar
+IF EXIST %cd%\WgetCmd.bat "C:\Juanelbuenocopiadelosarcivos\admin\PowerRun\PowerRun_x64.exe" "%cd%\WgetCmd.bat" & timeout /T 17 >nul & goto menu
+IF NOT EXIST %cd%\WgetCmd.bat powershell -command iwr 'https://raw.githubusercontent.com/JuanElBueno/Cmd/main/WgetCmd.bat' -OutFile 'WgetCmd.bat' & "C:\Juanelbuenocopiadelosarcivos\admin\PowerRun\PowerRun_x64.exe" "%cd%\WgetCmd.bat" & timeout /T 17 >nul & goto menu
 
 :desrar
-cd C:\Juanelbuenocopiadelosarcivos\progamas
-IF EXIST "C:\Program Files\WinRAR\WinRAR.exe" goto menu
-IF NOT EXIST "C:\Program Files\WinRAR\WinRAR.exe" wget https://d.winrar.es/d/103z1630683189/F0xrIEZsuPJTaQYxjRVerg/winrar-x64-602es.exe & winrar-x64-602es.exe /S /I & wget https://gist.githubusercontent.com/MuhammadSaim/de84d1ca59952cf1efaa8c061aab81a1/raw/ca31cbda01412e85949810d52d03573af281f826/rarreg.key & cd "C:\Program Files\WinRAR" & copy "C:\Juanelbuenocopiadelosarcivos\progamas\rarreg.key" "C:\Program Files\WinRAR" & goto menu
+cd C:\Juanelbuenocopiadelosarcivos
+IF NOT EXIST %cd%\winrar md %cd%\winrar
+IF EXIST "C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" goto wget1
+IF NOT EXIST "C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" cd C:\Juanelbuenocopiadelosarcivos\winrar & powershell -command iwr 'https://github.com/JuanElBueno/Winrar-cmd/archive/refs/heads/main.zip' -OutFile 'WinRAR_6.2.zip' & powershell Expand-Archive -LiteralPath 'C:\Juanelbuenocopiadelosarcivos\winrar\WinRAR_6.2.zip' -DestinationPath C:\Juanelbuenocopiadelosarcivos\winrar & goto wget1
 
 
 :Combertidor_de_yt
@@ -173,12 +173,7 @@ goto Combertidor_de_yt
 :mp3_combertidor
 cd C:\Juanelbuenocopiadelosarcivos\progamas
 IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\ffmpeg.exe goto mp3_combertidor_haciendo
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\ffmpeg.exe cd C:\Juanelbuenocopiadelosarcivos\progamas\rar & wget "" & goto mp3_combertidor_winrar
-:mp3_combertidor_winrar
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\ffmpeg md C:\Juanelbuenocopiadelosarcivos\progamas\ffmpeg 
-"C:\Program Files\WinRAR\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\ffmpeg.zip C:\Juanelbuenocopiadelosarcivos\progamas\ffmpeg
-cd C:\Juanelbuenocopiadelosarcivos\progamas\ffmpeg\                                      \bin
-copy ffmpeg.exe C:\Juanelbuenocopiadelosarcivos\progamas & goto mp3_combertidor_haciendo
+IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\ffmpeg.exe wget https://github.com/JuanElBueno/Command-Cmd/raw/main/ffmpeg.exe  & goto mp3_combertidor_haciendo
 
 :mp3_combertidor_haciendo
 cd C:\Juanelbuenocopiadelosarcivos\progamas
@@ -339,7 +334,7 @@ IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\procexp64.exe start procexp.ex
 IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\procexp64.exe wget https://download.sysinternals.com/files/ProcessExplorer.zip & start procexp.exe
 title Juan El Bueno
 goto 
-"C:\Program Files\WinRAR\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\ProcessExplorer.zip C:\Juanelbuenocopiadelosarcivos\progamas 
+"C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\ProcessExplorer.zip C:\Juanelbuenocopiadelosarcivos\progamas 
 cd C:\Juanelbuenocopiadelosarcivos\progamas 
 start procexp64.exe
 goto 64
@@ -404,7 +399,7 @@ IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\procexp64.exe start procexp64.
 IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\procexp64.exe cd C:\Juanelbuenocopiadelosarcivos\progamas\rar & wget https://download.sysinternals.com/files/ProcessExplorer.zip & goto procexp64
 :: Extraer en winrar
 :procexp64
-"C:\Program Files\WinRAR\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\ProcessExplorer.zip C:\Juanelbuenocopiadelosarcivos\progamas 
+"C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\ProcessExplorer.zip C:\Juanelbuenocopiadelosarcivos\progamas 
 cd C:\Juanelbuenocopiadelosarcivos\progamas 
 start procexp64.exe
 goto 64
@@ -425,7 +420,7 @@ IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\speedtest.exe start speedtest.
 IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\speedtest.exe cd C:\Juanelbuenocopiadelosarcivos\progamas\rar & powershell -command iwr 'https://install.speedtest.net/app/cli/ookla-speedtest-1.0.0-win64.zip' -OutFile 'speedtest-win64.zip' & goto speed
 :: Extraer en winrar
 :speed
-"C:\Program Files\WinRAR\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\speedtest-win64.zip C:\Juanelbuenocopiadelosarcivos\progamas
+"C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\speedtest-win64.zip C:\Juanelbuenocopiadelosarcivos\progamas
 cd C:\Juanelbuenocopiadelosarcivos\progamas
 start speedtest.exe
 goto 64
@@ -439,7 +434,7 @@ IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\Autoruns64.exe start Autoruns6
 IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\Autoruns64.exe cd C:\Juanelbuenocopiadelosarcivos\progamas\rar & powershell.exe -ExecutionPolicy Bypass -Command (new-object System.Net.WebClient).DownloadFile('https://download.sysinternals.com/files/Autoruns.zip','Autoruns.zip') & goto Autoruns1 
 :: Extraer en winrar
 :Autoruns1
-"C:\Program Files\WinRAR\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\Autoruns.zip C:\Juanelbuenocopiadelosarcivos\progamas 
+"C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\Autoruns.zip C:\Juanelbuenocopiadelosarcivos\progamas 
 cd C:\Juanelbuenocopiadelosarcivos\progamas 
 start Autoruns64.exe
 goto 64
@@ -452,7 +447,7 @@ IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\TMX64.exe start TMX64.exe & go
 IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\TMX64.exe cd C:\Juanelbuenocopiadelosarcivos\progamas\rar & powershell -command iwr 'https://mitec.cz/Downloads/TMX.zip' -OutFile 'TMX64.zip' & goto TMX64
 :TMX64
 :: Extraer en winrar
-"C:\Program Files\WinRAR\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\TMX64.zip C:\Juanelbuenocopiadelosarcivos\progamas
+"C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\TMX64.zip C:\Juanelbuenocopiadelosarcivos\progamas
 cd C:\Juanelbuenocopiadelosarcivos\progamas
 start TMX64.exe 
 goto 64
@@ -465,7 +460,7 @@ IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\Everything.exe start Everythin
 IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\Everything.exe cd C:\Juanelbuenocopiadelosarcivos\progamas\rar & powershell -command iwr 'https://www.voidtools.com/Everything-1.4.1.969.x64.zip' -OutFile 'Everything-1.4.1.969.x64.zip' & goto Everything
 :Everything
 :: Extraer en winrar
-"C:\Program Files\WinRAR\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\Everything-1.4.1.969.x64.zip C:\Juanelbuenocopiadelosarcivos\progamas
+"C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\Everything-1.4.1.969.x64.zip C:\Juanelbuenocopiadelosarcivos\progamas
 cd C:\Juanelbuenocopiadelosarcivos\progamas
 start Everything.exe
 goto 64
@@ -478,7 +473,7 @@ IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\WizTree64.exe start WizTree64.
 IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\WizTree64.exe cd C:\Juanelbuenocopiadelosarcivos\progamas\rar & powershell -command iwr 'https://wiztreefree.com/files/wiztree_3_39_portable.zip' -OutFile 'wiztree_3_39_portable.zip' & goto wiztreeportable 
 :: Extraer en winrar
 :wiztreeportable
-"C:\Program Files\WinRAR\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\wiztree_3_39_portable.zip C:\Juanelbuenocopiadelosarcivos\progamas 
+"C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\wiztree_3_39_portable.zip C:\Juanelbuenocopiadelosarcivos\progamas 
 cd C:\Juanelbuenocopiadelosarcivos\progamas 
 start WizTree64.exe
 goto 64
@@ -492,7 +487,7 @@ IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\EagleGetProtable\EagleGet.exe 
 IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\EagleGetProtable\EagleGet.exe cd C:\Juanelbuenocopiadelosarcivos\progamas\rar & powershell -command iwr 'http://dl.eagleget.com/latest/EagleGetProtable_2.1.5.10.zip' -OutFile 'EagleGetProtable_2.1.5.10.zip' & goto EagleGetProtable 
 :: Extraer en winrar
 :EagleGetProtable
-"C:\Program Files\WinRAR\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\EagleGetProtable_2.1.5.10.zip C:\Juanelbuenocopiadelosarcivos\progamas\EagleGetProtable
+"C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\EagleGetProtable_2.1.5.10.zip C:\Juanelbuenocopiadelosarcivos\progamas\EagleGetProtable
 cd C:\Juanelbuenocopiadelosarcivos\progamas\EagleGetProtable
 start EagleGet.exe
 goto 64
@@ -555,7 +550,7 @@ IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\master\win10script-master\win1
 IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\master\win10script-master\win10debloat.ps1 cd C:\Juanelbuenocopiadelosarcivos\progamas\rar & powershell -command iwr 'https://github.com/ChrisTitusTech/win10script/archive/refs/heads/master.zip' -OutFile 'master.zip' & goto Programon
 :: Extraer en winrar
 :Programon
-"C:\Program Files\WinRAR\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\master.zip C:\Juanelbuenocopiadelosarcivos\progamas\master
+"C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\master.zip C:\Juanelbuenocopiadelosarcivos\progamas\master
 cd C:\Juanelbuenocopiadelosarcivos\progamas\master\win10script-master
 powershell.exe C:\Juanelbuenocopiadelosarcivos\progamas\master\win10debloat.ps1
 pause
@@ -567,19 +562,3 @@ goto menu3
 :: del C:\Juanelbuenocopiadelosarcivos\progamas /f /s /q
 timeout /T 5
 goto menu
-
-:: powershell.exe -command PowerShell -ExecutionPolicy bypass -noprofile -windowstyle hidden -command (New-Object System.Net.WebClient).DownloadFile('descagar',"donde lo descarga");Start-Process ("$executable")
-
-:: ::Nada:: repetir los progamas y que lo ponga en admin
-
-:: start http://download1626.mediafire.com/kb9kyqqwsklg/zpqvistkx07fqw7/wget.exe
-
-:: "c:\archivos de programa\winrar\winrar.exe" x "C:\Juanelbuenocopiadelosarcivos\progamas\" C:\Juanelbuenocopiadelosarcivos\progamas
-
-:: powershell -command iwr 'https://bintray.com/ookla/download/download_file?file_path=ookla-speedtest-1.0.0-win64.zip' -OutFile 'speedtest-win64.zip'
-
-:: powershell.exe -ExecutionPolicy Bypass -Command (new-object System.Net.WebClient).DownloadFile('https://eternallybored.org/misc/wget/1.20.3/64/wget.exe','wget.exe') 
-
-:: powershell wget "http://www.mediafire.com/file/dku13ib72jkjvpq" --no-check-certificate
-
-::cd C:\Juanelbuenocopiadelosarcivos\progamas\rar & powershell -command iwr 'http://www.mitec.cz/Downloads/TMX64.zip' -OutFile 'TMX64.zip' "c:\archivos de programa\winrar\winrar.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\TMX64.zip C:\Juanelbuenocopiadelosarcivos\progamas cd C:\Juanelbuenocopiadelosarcivos\progamas start "TMX64.exe"
