@@ -1,54 +1,132 @@
-REM Modos de iniciar
-
+REM Ruta general
 @shift
 @echo off
-mode con: cols=50 lines=18  
+set ruta=C:\Juanelbuenocopiadelosarcivos
+set programas=%ruta%\programas
+set rar=%programas%\rar
+set admin=%ruta%\admin
+set winrar=%ruta%\winrar
+set winrarexe=%winrar%\Winrar-cmd-main\WinRAR.exe
+
+if $SYSTEM_os_arch==x86 (
+  set Titulo=Juan El Bueno (32 bits)
+) else (
+  set Titulo=Juan El Bueno (64 bits)
+)
+
+REM Modos de iniciar
+
+:general
+mode con: cols=52 lines=18  
 color 9f
-title Juan El Bueno
+title %Titulo%
 
-REM Ruta general
+IF NOT EXIST "%ruta%" md "%ruta%"
+IF NOT EXIST "%programas%" md "%programas%"
+IF NOT EXIST "%rar%" md "%rar%" 
+IF NOT EXIST "%admin%" md "%admin%"
+IF NOT EXIST "%winrar%" md "%winrar%"
+cd %ruta%
 
-set Ruta=C:\Juanelbuenocopiadelosarcivos
-set Titulo= Juan El Bueno
-
-IF NOT EXIST "%Ruta%" md "%Ruta%"
-IF NOT EXIST "%Ruta%\progamas" md "%Ruta%\progamas"
-IF NOT EXIST "%Ruta%\progamas\rar" md "%Ruta%\progamas\rar" 
 echo **************************************************
 echo.
 echo                  Para Win 10 Y 11 
 echo.
-echo        Version Beta De la Aplicacion V1.13.96  
+echo        Version Beta De la Aplicacion V1.17.55  
 echo.
 echo **************************************************
 timeout /T 5 >nul
+
 REM Programas necesarios para iniciar
 
-cd %Ruta%
-IF EXIST "%Ruta%\winrar\Winrar-cmd-main\WinRAR.exe" goto wget1
-IF NOT EXIST "%Ruta%\winrar\Winrar-cmd-main\WinRAR.exe" echo [+]Programas necesarios WinRAR & timeout /T 5 >nul & goto desrar
+IF EXIST %winrarexe% (
+goto wget1
+) else (
+echo [+]Programas Necesarios WinRAR & timeout /T 5 >nul
+goto desrar
+)
 
-:wget1 
-IF EXIST C:\Windows\System32\wget.exe goto menu
-IF NOT EXIST C:\Windows\System32\wget.exe echo [+]Programas necesarios Wget & timeout /T 5 >nul & goto wgetinstalar
+:wget1
+set /p wgetvof=Quieres administracion (y o n):
+
+if "%wgetvof%"=="y" (
+IF EXIST C:\Windows\System32\wget.exe ( 
+echo [+]Progama istalado Exitosa Wget [administracion]
+timeout /T 5 >nul 
+goto menu
+) else (
+echo [+]Programas Necesarios Wget [administracion]
+timeout /T 5 >nul
+goto wgetinstalar
+))
+ 
+if "%wgetvof%"=="n" (
+IF EXIST C:\Juanelbuenocopiadelosarcivos\wget.exe ( 
+echo [+]Progama Istalado Exitosa Wget [No administracion] 
+timeout /T 5 >nul 
+goto menu
+) else (
+echo [+]Programas Necesarios Wget [No administracion] 
+timeout /T 5 >nul
+))
+
+:wgetsinad
+set rutaw=C:\Juanelbuenocopiadelosarcivos\wget.exe
+
+IF EXIST %Ruta%\wget.exe ( 
+echo [+]Progama istalado Exitosa Wget [No administracion]
+timeout /T 5 >nul
+goto menu
+) else (
+cd %ruta%
+powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.1/32/wget.exe' -OutFile 'wget.exe' 
+goto menu
+)
 
 :wgetinstalar
+set rutaw=C:\Windows\System32\wget.exe
+
 mode con: cols=80 lines=18
-::si no exist la carpeta que me lo cres 
-IF NOT EXIST %Ruta%\admin md %Ruta%\admin
 :: si exite se pone en admin
-IF EXIST %Ruta%\admin\PowerRun_x64.exe cd %Ruta%\admin & goto wgetinstalarexe
+IF EXIST %admin%\PowerRun_x64.exe ( 
+cd %admin%
+goto wgetinstalarexe
+) else (
 :: si no exite se descarga
-IF NOT EXIST %Ruta%\admin\PowerRun_x64.exe cd %Ruta%\admin & powershell -command iwr 'https://github.com/JuanElBueno/Command-Cmd/raw/main/PowerRun_x64.exe' -OutFile 'PowerRun_x64.exe' & goto wgetinstalarexe
+cd %admin%
+powershell -command iwr 'https://github.com/JuanElBueno/Command-Cmd/raw/main/PowerRun_x64.exe' -OutFile 'PowerRun_x64.exe' 
+goto wgetinstalarexe
+)
+
 :wgetinstalarexe
-IF EXIST %Ruta%\WgetCmd.bat "C:\Juanelbuenocopiadelosarcivos\admin\PowerRun_x64.exe" "%Ruta%\WgetCmd.bat" & mode con: cols=50 lines=18 & timeout /T 17 >nul & goto menu
-IF NOT EXIST %ruta%\WgetCmd.bat cd %ruta% & powershell -command iwr 'https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/WgetCmd.bat' -OutFile 'WgetCmd.bat'; "C:\Juanelbuenocopiadelosarcivos\admin\PowerRun_x64.exe" "WgetCmd.bat" & mode con: cols=50 lines=18 & timeout /T 17 >nul & goto menu
+IF EXIST %Ruta%\WgetCmd.bat (
+"%admin%\PowerRun_x64.exe" "%Ruta%\WgetCmd.bat"
+mode con: cols=50 lines=18  
+timeout /T 17 >nul 
+goto menu
+) else (
+cd %ruta% 
+powershell -command iwr 'https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/WgetCmd.bat' -OutFile 'WgetCmd.bat'
+"\PowerRun_x64.exe" "WgetCmd.bat" 
+mode con: cols=50 lines=18 
+timeout /T 17 >nul
+goto menu
+)
 
 :desrar
 mode con: cols=80 lines=18
-IF NOT EXIST %Ruta%\winrar md %Ruta%\winrar
-IF EXIST "%Ruta%\winrar\Winrar-cmd-main\WinRAR.exe" goto wget1
-IF NOT EXIST "%Ruta%\winrar\Winrar-cmd-main\WinRAR.exe" cd %Ruta%\winrar & powershell -command iwr 'https://github.com/JuanElBueno/Winrar-cmd/archive/refs/heads/main.zip' -OutFile 'WinRAR_6.2.zip' & powershell Expand-Archive -LiteralPath '%Ruta%\winrar\WinRAR_6.2.zip' -DestinationPath %Ruta%\winrar & mode con: cols=50 lines=18 & goto wget1
+
+IF EXIST %winrarexe% (
+goto wget1
+) else (
+mode con: cols=80 lines=18
+cd %Ruta%\winrar 
+powershell -command iwr 'https://github.com/JuanElBueno/Winrar-cmd/archive/refs/heads/main.zip' -OutFile 'WinRAR_6.2.zip' 
+powershell Expand-Archive -LiteralPath '%Ruta%\winrar\WinRAR_6.2.zip' -DestinationPath %Ruta%\winrar 
+mode con: cols=50 lines=18 
+goto wget1
+)
+REM hecho desde arriba
 
 REM 						Menu de inicio
 :menu                                                    
@@ -94,7 +172,7 @@ goto menu
 
 :informaciondelequipo
 cls
-cd C:\Juanelbuenocopiadelosarcivos
+cd %ruta%
 systeminfo > "Informacion Del Equipo.txt"
 goto menu
 
@@ -106,7 +184,7 @@ echo Nombre del wifi
 echo ***************
 netsh wlan show profile
 set /p nombredewifi=Nombre del wifi:
- name=%nombredewifi% key=clear
+netsh wlan show profile name=%nombredewifi% key=clear
 pause
 mode con: cols=50 lines=18  
 goto menu
@@ -125,15 +203,20 @@ goto menu
 
 :Administradorcmd
 ::powershell -command iwr 'https://www.sordum.org/files/download/power-run/PowerRun.zip' -OutFile 'PowerRun.zip'
-::si no exist la carpeta que me lo cres 
-IF NOT EXIST %Ruta%\admin md %Ruta%\admin
+
 :: si exite se pone en admin
-IF EXIST %Ruta%\admin\PowerRun\PowerRun_x64.exe cd %Ruta%\admin\PowerRun & goto exploreradmin
+IF EXIST %admin%\PowerRun_x64.exe ( 
+goto exploreradmin
+) else (
 :: si no exite se descarga
-IF NOT EXIST %Ruta%\admin\PowerRun\PowerRun_x64.exe cd %Ruta%\admin & powershell -command iwr 'https://github.com/JuanElBueno/Command-Cmd/raw/main/PowerRun_x64.exe' -OutFile 'PowerRun_x64.exe' & goto exploreradmin
+cd %admin% 
+powershell -command iwr 'https://github.com/JuanElBueno/Command-Cmd/raw/main/PowerRun_x64.exe' -OutFile 'PowerRun_x64.exe'
+)
 :exploreradmin
-cd C:\Juanelbuenocopiadelosarcivos\admin
-"%Ruta%\PowerRun_x64.exe" "%UserProfile%\Desktop\Comandos.bat" & echo [+] Salendo... & timeout /T 2 >nul & Exit 
+"%admin%\PowerRun_x64.exe" "%UserProfile%\Desktop\Comandos.bat" 
+echo [+] Salendo...
+timeout /T 2 >nul 
+Exit 
 
 :: Ip cuando estas sin intertet
 :ip
@@ -143,7 +226,7 @@ title Ip De Google (Acuedate de N para salir)
 ping google.es -t 
 cls
 mode con: cols=50 lines=18
-title Juan El Bueno 
+title %Titulo%
 goto menu
 
 :: No responde los porgramas
@@ -158,15 +241,7 @@ TASKKILL /F /IM explorer.exe & timeout /nobreak 10 & start explorer.exe
 goto menu
 
 :reset
-@shift
-@echo off
-mode con: cols=50 lines=18  
-color 9f
-title Juan El Bueno 
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos md C:\Juanelbuenocopiadelosarcivos
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas md C:\Juanelbuenocopiadelosarcivos\progamas
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\rar md C:\Juanelbuenocopiadelosarcivos\progamas\rar
-goto menu
+goto general
 
 ::Exit
 ::exit
@@ -201,7 +276,7 @@ goto menu
 		if "%var%"=="10" call compmgmt & goto admintareas
 		if "%var%"=="s" goto menu
 		:: Menu de configuracion
-		if "%var%"=="1,2" call cmd /c "taskmgr" | call cmd /c "calc" & goto admintareas
+		REM if "%var%"=="1,2" call cmd /c "taskmgr" | call cmd /c "calc" & goto admintareas
 		
 		
 :error
@@ -214,27 +289,27 @@ echo *************************************************
 timeout /T 5 >nul
 goto admintareas
 
-:descagar_archivos
-cd C:\Juanelbuenocopiadelosarcivos\progamas
-:: si exite se pone la aplicacion
-IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\wget.exe goto descagar_lazamiento 
-:: si no exite se descarga
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\wget.exe wget https://eternallybored.org/misc/wget/1.20.3/64/wget.exe & goto descagar_lazamiento
+REM :descagar_archivos
+REM cd C:\Juanelbuenocopiadelosarcivos\programas
+REM :: si exite se pone la aplicacion
+REM IF EXIST C:\Juanelbuenocopiadelosarcivos\programas\wget.exe goto descagar_lazamiento 
+REM :: si no exite se descarga
+REM IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\programas\wget.exe wget https://eternallybored.org/misc/wget/1.20.3/64/wget.exe & goto descagar_lazamiento
 
-:descagar_lazamiento
+:descagar_archivos
 set /p descargar=Que archivo quieres descagar:
-cd C:\Juanelbuenocopiadelosarcivos\progamas
-wget "%descargar%" --no-check-certificate
+cd %programas%
+%rutaw% "%descargar%" --no-check-certificate
 pause 
-title Juan El Bueno 
+title %titulo% 
 cls 
 goto admintareas
 
 :descagar_archivos_lazamiento
-cd C:\Juanelbuenocopiadelosarcivos\progamas
+cd %programas%
 set /p descagar1=Que archivo quieres descagar:
 set /p nombre2=Nombre del achivo: 
-powershell -command iwr '%descagar1%' -OutFile '%nombre2%' & explorer C:\Juanelbuenocopiadelosarcivos\progamas & goto admintareas	
+powershell -command iwr '%descagar1%' -OutFile '%nombre2%' & explorer C:\Juanelbuenocopiadelosarcivos\programas & goto admintareas	
 
 :Combertidor_de_yt
 cls
@@ -261,12 +336,17 @@ timeout /T 5 >nul
 goto Combertidor_de_yt
 
 :Descargaryt
-cd %Ruta%\progamas
-IF EXIST %Ruta%\progamas\youtube-dl.exe goto descagar_yt_programa
-IF NOT EXIST %Ruta%\progamas\youtube-dl.exe cd %Ruta%\progamas & wget https://youtube-dl.org/downloads/latest/youtube-dl.exe & title %Titulo% & goto descagar_yt_programa
+IF EXIST %programas%\youtube-dl.exe (
+goto descagar_yt_programa
+) else (
+cd %programas%
+%rutaw% https://youtube-dl.org/downloads/latest/youtube-dl.exe 
+title %Titulo% 
+goto descagar_yt_programa
+)
 
 :descagar_yt_programa
-cd C:\Juanelbuenocopiadelosarcivos\progamas
+cd %programas%
 set /p enlace=Enlace del yt y de todo:
 @echo on
 youtube-dl.exe %enlace%
@@ -275,12 +355,14 @@ pause
 goto Combertidor_de_yt
 
 :mp3_combertidor
-cd C:\Juanelbuenocopiadelosarcivos\progamas
-IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\ffmpeg.exe goto mp3_combertidor_haciendo
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\ffmpeg.exe wget https://github.com/JuanElBueno/Command-Cmd/raw/main/ffmpeg.exe & title %Titulo% & goto mp3_combertidor_haciendo
-
+cd %programas%
+IF EXIST %programas%\ffmpeg.exe (
+goto mp3_combertidor_haciendo
+) else (
+%rutaw% https://github.com/JuanElBueno/Command-Cmd/raw/main/ffmpeg.exe & title %Titulo% & goto mp3_combertidor_haciendo
+)
 :mp3_combertidor_haciendo
-cd C:\Juanelbuenocopiadelosarcivos\progamas
+cd %programas%
 set /p ORIGEN=Origen del achivo:
 set /p DESTINO=Destino del achivo:
 @echo on
@@ -290,7 +372,7 @@ pause
 goto Combertidor_de_yt
 
 
-:: menu2 de progamas de descagar
+:: menu2 de programas de descagar
 :menu2
 if $SYSTEM_os_arch==x86 (
   Echo Programa no compatible & timeout /T 10 >nul & goto menu
@@ -298,7 +380,7 @@ if $SYSTEM_os_arch==x86 (
   goto 64
 )
 
-::32
+REM 32
 REM :32
 	REM cls
 	REM echo *************************************************
@@ -307,13 +389,13 @@ REM :32
 	REM echo *************************************************
 	REM echo *                      MENU                     *
 	REM echo *************************************************
-	REM echo * 1) Progamas procexp64                         *
-	REM echo * 2) Progamas MegaBasterd                       *
+	REM echo * 1) programas procexp64                         *
+	REM echo * 2) programas MegaBasterd                       *
 	REM echo * 3) Salir del menu volver a anterior.          *
 	REM echo *************************************************
 		REM set /p var=Seleccione una opcion [1-3]: 
-		REM if "%var%"=="1" goto progamasm3
-		REM if "%var%"=="2" goto progamas1m3
+		REM if "%var%"=="1" goto programasm3
+		REM if "%var%"=="2" goto programas1m3
 		REM if "%var%"=="3" goto menu
 		
 REM :: error de comandos
@@ -327,32 +409,30 @@ REM echo *************************************************
 REM timeout /T 5 >nul
 REM goto 32
 
-REM :progamasm3
-REM cd C:\Juanelbuenocopiadelosarcivos\progamas
+REM :programasm3
+REM cd C:\Juanelbuenocopiadelosarcivos\programas
 REM :: si exite se pone la aplicacion
-REM IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\procexp64.exe start procexp.exe
+REM IF EXIST C:\Juanelbuenocopiadelosarcivos\programas\procexp64.exe start procexp.exe
 REM :: si no exite se descarga
-REM IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\procexp64.exe wget https://download.sysinternals.com/files/ProcessExplorer.zip & title Juan El Bueno & start procexp.exe
+REM IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\programas\procexp64.exe wget https://download.sysinternals.com/files/ProcessExplorer.zip & title Juan El Bueno & start procexp.exe
 REM title Juan El Bueno
-REM "C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\ProcessExplorer.zip C:\Juanelbuenocopiadelosarcivos\progamas 
-REM cd C:\Juanelbuenocopiadelosarcivos\progamas 
+REM "%winrarexe%" x C:\Juanelbuenocopiadelosarcivos\programas\rar\ProcessExplorer.zip C:\Juanelbuenocopiadelosarcivos\programas 
+REM cd C:\Juanelbuenocopiadelosarcivos\programas 
 REM start procexp64.exe
 REM goto 64
 
-REM :progamas1m3
-REM cd C:\Juanelbuenocopiadelosarcivos\progamas
+REM :programas1m3
+REM cd C:\Juanelbuenocopiadelosarcivos\programas
 REM :: si exite se pone la aplicacion
-REM IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\MegaBasterd.jar start MegaBasterd.jar
+REM IF EXIST C:\Juanelbuenocopiadelosarcivos\programas\MegaBasterd.jar start MegaBasterd.jar
 REM :: si no exite se descarga
-REM IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\MegaBasterd.jar wget https://github.com/tonikelope/megabasterd/releases/download/v7.24/MegaBasterd_7.24.jar & title Juan El Bueno & start MegaBasterd.jar
+REM IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\programas\MegaBasterd.jar wget https://github.com/tonikelope/megabasterd/releases/download/v7.24/MegaBasterd_7.24.jar & title Juan El Bueno & start MegaBasterd.jar
 REM title Juan El Bueno
 REM goto m3
 
 
 ::64
 :64
-
-set ruta_programas=C:\Juanelbuenocopiadelosarcivos\progamas
 
 	cls
 	echo *************************************************
@@ -370,15 +450,15 @@ set ruta_programas=C:\Juanelbuenocopiadelosarcivos\progamas
 	echo * o) Continuacion del programa                 *	
 	echo *************************************************
 		set /p var=Seleccione una opcion [1-9]: 
-		:: progamas de equipo de wifi
-		if "%var%"=="1" goto progamas
-		if "%var%"=="2" goto progamas1
-		if "%var%"=="3" goto progamas2
-		if "%var%"=="4" goto progamas3
-		if "%var%"=="5" goto progamas4
-		if "%var%"=="6" goto progamas5
-		if "%var%"=="7" goto progamas6
-		if "%var%"=="8" goto progamas7
+		:: programas de equipo de wifi
+		if "%var%"=="1" goto programas
+		if "%var%"=="2" goto programas1
+		if "%var%"=="3" goto programas2
+		if "%var%"=="4" goto programas3
+		if "%var%"=="5" goto programas4
+		if "%var%"=="6" goto programas5
+		if "%var%"=="7" goto programas6
+		if "%var%"=="8" goto programas7
 		if "%var%"=="9" goto salir
 		if "%var%"=="o" goto menu3
 		:: if "%var%"=="15" goto prueba
@@ -394,106 +474,116 @@ echo *************************************************
 timeout /T 5 >nul
 goto 64
 
-:progamas
-cd C:\Juanelbuenocopiadelosarcivos\progamas
+:programas
 :: si exite se pone la aplicacion
-IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\procexp64.exe start procexp64.exe & goto 64 
+IF EXIST %ruta_programas%\procexp64.exe (
+start procexp64.exe
+goto 64
+) else ( 
 :: si no exite se descarga
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\procexp64.exe cd C:\Juanelbuenocopiadelosarcivos\progamas\rar & wget https://download.sysinternals.com/files/ProcessExplorer.zip & title Juan El Bueno & goto procexp64
+cd %ruta_programas%\rar 
+%rutaw% https://download.sysinternals.com/files/ProcessExplorer.zip 
+title %Titulo%
+goto procexp64
+)
 :: Extraer en winrar
 :procexp64
-"C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\ProcessExplorer.zip C:\Juanelbuenocopiadelosarcivos\progamas 
-cd C:\Juanelbuenocopiadelosarcivos\progamas 
+"%winrarexe%" x C:\Juanelbuenocopiadelosarcivos\programas\rar\ProcessExplorer.zip C:\Juanelbuenocopiadelosarcivos\programas 
+cd C:\Juanelbuenocopiadelosarcivos\programas 
 start procexp64.exe
 goto 64
 
-:progamas1
-cd C:\Juanelbuenocopiadelosarcivos\progamas
+:programas1
+cd %ruta_programas%
 REM IF NOT EXIST "C:\Program Files\Java\jre1.8.0_301\bin\java.exe" echo [+]Programas necesarios Java & timeout /T 5 >nul & goto 64
 
 :: si exite se pone la aplicacion
-IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\MegaBasterd_7.43.jar start cmd /c java -jar MegaBasterd_7.43.jar
+IF EXIST C:\Juanelbuenocopiadelosarcivos\programas\MegaBasterd.jar start cmd /c java -jar MegaBasterd.jar
 :: si no exite se descarga
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\MegaBasterd_7.43.jar wget https://github.com/tonikelope/megabasterd/releases/download/v7.43/MegaBasterd.jar & title Juan El Bueno & cd C:\Juanelbuenocopiadelosarcivos\progamas & start cmd /c java -jar MegaBasterd_7.43.jar
+IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\programas\MegaBasterd.jar powershell -command iwr 'https://github.com/tonikelope/megabasterd/releases/download/v7.43/MegaBasterd_7.43.jar' -OutFile 'MegaBasterd.jar' & cd %ruta_programas% & start cmd /c java -jar MegaBasterd.jar
 goto 64
 
-:progamas2
-cd C:\Juanelbuenocopiadelosarcivos\progamas
+:programas2
+cd C:\Juanelbuenocopiadelosarcivos\programas
 :: si exite se pone la aplicacion
-IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\speedtest.exe start speedtest.exe & goto 64
+IF EXIST C:\Juanelbuenocopiadelosarcivos\programas\speedtest.exe start speedtest.exe & goto 64
 :: si no exite se descarga
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\speedtest.exe cd C:\Juanelbuenocopiadelosarcivos\progamas\rar & powershell -command iwr 'https://install.speedtest.net/app/cli/ookla-speedtest-1.0.0-win64.zip' -OutFile 'speedtest-win64.zip' & goto speed
+IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\programas\speedtest.exe cd C:\Juanelbuenocopiadelosarcivos\programas\rar & powershell -command iwr 'https://install.speedtest.net/app/cli/ookla-speedtest-1.0.0-win64.zip' -OutFile 'speedtest-win64.zip' & 
+
+
+
+goto speed
 :: Extraer en winrar
 :speed
-"C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\speedtest-win64.zip C:\Juanelbuenocopiadelosarcivos\progamas
-cd C:\Juanelbuenocopiadelosarcivos\progamas
+"%winrarexe%" x C:\Juanelbuenocopiadelosarcivos\programas\rar\speedtest-win64.zip C:\Juanelbuenocopiadelosarcivos\programas
+cd C:\Juanelbuenocopiadelosarcivos\programas
 start speedtest.exe
 goto 64
 
-:progamas3
-cd C:\Juanelbuenocopiadelosarcivos\progamas
+:programas3
+cd C:\Juanelbuenocopiadelosarcivos\programas
 :: si exite se pone la aplicacion
-IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\Autoruns64.exe start Autoruns64.exe & goto 64
+IF EXIST C:\Juanelbuenocopiadelosarcivos\programas\Autoruns64.exe start Autoruns64.exe & goto 64
 :: si no exite se descarga
 :: https://download.sysinternals.com/files/Autoruns.zip
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\Autoruns64.exe cd C:\Juanelbuenocopiadelosarcivos\progamas\rar & powershell.exe -ExecutionPolicy Bypass -Command (new-object System.Net.WebClient).DownloadFile('https://download.sysinternals.com/files/Autoruns.zip','Autoruns.zip') & goto Autoruns1 
+IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\programas\Autoruns64.exe cd C:\Juanelbuenocopiadelosarcivos\programas\rar & powershell.exe -ExecutionPolicy Bypass -Command (new-object System.Net.WebClient).DownloadFile('https://download.sysinternals.com/files/Autoruns.zip','Autoruns.zip') & goto Autoruns1 
 :: Extraer en winrar
 :Autoruns1
-"C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\Autoruns.zip C:\Juanelbuenocopiadelosarcivos\progamas 
-cd C:\Juanelbuenocopiadelosarcivos\progamas 
+"%winrarexe%" x C:\Juanelbuenocopiadelosarcivos\programas\rar\Autoruns.zip C:\Juanelbuenocopiadelosarcivos\programas 
+cd C:\Juanelbuenocopiadelosarcivos\programas 
 start Autoruns64.exe
 goto 64
 
-:progamas4
-cd C:\Juanelbuenocopiadelosarcivos\progamas
+:programas4
+cd C:\Juanelbuenocopiadelosarcivos\programas
 :: si exite se pone la aplicacion
-IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\TMX64.exe start TMX64.exe & goto 64
+IF EXIST C:\Juanelbuenocopiadelosarcivos\programas\TMX64.exe start TMX64.exe & goto 64
 :: si no exite se descarga
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\TMX64.exe cd C:\Juanelbuenocopiadelosarcivos\progamas\rar & powershell -command iwr 'https://mitec.cz/Downloads/TMX.zip' -OutFile 'TMX64.zip' & goto TMX64
+IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\programas\TMX64.exe cd C:\Juanelbuenocopiadelosarcivos\programas\rar & powershell -command iwr 'https://mitec.cz/Downloads/TMX.zip' -OutFile 'TMX64.zip' & goto TMX64
 :TMX64
 :: Extraer en winrar
-"C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\TMX64.zip C:\Juanelbuenocopiadelosarcivos\progamas
-cd C:\Juanelbuenocopiadelosarcivos\progamas
+"%winrarexe%" x C:\Juanelbuenocopiadelosarcivos\programas\rar\TMX64.zip C:\Juanelbuenocopiadelosarcivos\programas
+cd C:\Juanelbuenocopiadelosarcivos\programas
 start TMX64.exe 
 goto 64
 
-:progamas5
-cd C:\Juanelbuenocopiadelosarcivos\progamas
+:programas5
+cd C:\Juanelbuenocopiadelosarcivos\programas
 :: si exite se pone la aplicacion
-IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\Everything.exe start Everything.exe & goto 64
+IF EXIST C:\Juanelbuenocopiadelosarcivos\programas\Everything.exe start Everything.exe & goto 64
 :: si no exite se descarga
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\Everything.exe cd C:\Juanelbuenocopiadelosarcivos\progamas\rar & powershell -command iwr 'https://www.voidtools.com/Everything-1.4.1.969.x64.zip' -OutFile 'Everything-1.4.1.969.x64.zip' & goto Everything
+IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\programas\Everything.exe cd C:\Juanelbuenocopiadelosarcivos\programas\rar & powershell -command iwr 'https://www.voidtools.com/Everything-1.4.1.969.x64.zip' -OutFile 'Everything-1.4.1.969.x64.zip' & goto Everything
 :Everything
 :: Extraer en winrar
-"C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\Everything-1.4.1.969.x64.zip C:\Juanelbuenocopiadelosarcivos\progamas
-cd C:\Juanelbuenocopiadelosarcivos\progamas
+"%winrarexe%" x C:\Juanelbuenocopiadelosarcivos\programas\rar\Everything-1.4.1.969.x64.zip C:\Juanelbuenocopiadelosarcivos\programas
+cd C:\Juanelbuenocopiadelosarcivos\programas
 start Everything.exe
 goto 64
 
-:progamas6
-cd C:\Juanelbuenocopiadelosarcivos\progamas
+:programas6
+cd C:\Juanelbuenocopiadelosarcivos\programas
 :: si exite se pone la aplicacion
-IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\WizTree64.exe start WizTree64.exe & goto 64
+IF EXIST C:\Juanelbuenocopiadelosarcivos\programas\WizTree64.exe start WizTree64.exe & goto 64
 :: si no exite se descarga
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\WizTree64.exe cd C:\Juanelbuenocopiadelosarcivos\progamas\rar & powershell -command iwr 'https://wiztreefree.com/files/wiztree_3_39_portable.zip' -OutFile 'wiztree_3_39_portable.zip' & goto wiztreeportable 
+IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\programas\WizTree64.exe cd C:\Juanelbuenocopiadelosarcivos\programas\rar & powershell -command iwr 'https://wiztreefree.com/files/wiztree_3_39_portable.zip' -OutFile 'wiztree_3_39_portable.zip' & goto wiztreeportable 
 :: Extraer en winrar
 :wiztreeportable
-"C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\wiztree_3_39_portable.zip C:\Juanelbuenocopiadelosarcivos\progamas 
-cd C:\Juanelbuenocopiadelosarcivos\progamas 
+"%winrarexe%" x C:\Juanelbuenocopiadelosarcivos\programas\rar\wiztree_3_39_portable.zip C:\Juanelbuenocopiadelosarcivos\programas 
+cd C:\Juanelbuenocopiadelosarcivos\programas 
 start WizTree64.exe
 goto 64
 
-:progamas7
-IF NOT EXIST "C:\Juanelbuenocopiadelosarcivos\progamas\EagleGetProtable" md "C:\Juanelbuenocopiadelosarcivos\progamas\EagleGetProtable"
-cd C:\Juanelbuenocopiadelosarcivos\progamas\EagleGetProtable
+:programas7
+IF NOT EXIST "C:\Juanelbuenocopiadelosarcivos\programas\EagleGetProtable" md "C:\Juanelbuenocopiadelosarcivos\programas\EagleGetProtable"
+cd C:\Juanelbuenocopiadelosarcivos\programas\EagleGetProtable
 :: si exite se pone la aplicacion
-IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\EagleGetProtable\EagleGet.exe start EagleGet.exe & goto 64
+IF EXIST C:\Juanelbuenocopiadelosarcivos\programas\EagleGetProtable\EagleGet.exe start EagleGet.exe & goto 64
 :: si no exite se descarga
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\EagleGetProtable\EagleGet.exe cd C:\Juanelbuenocopiadelosarcivos\progamas\rar & powershell -command iwr 'http://dl.eagleget.com/latest/EagleGetProtable_2.1.5.10.zip' -OutFile 'EagleGetProtable_2.1.5.10.zip' & goto EagleGetProtable 
+IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\programas\EagleGetProtable\EagleGet.exe cd C:\Juanelbuenocopiadelosarcivos\programas\rar & powershell -command iwr 'http://dl.eagleget.com/latest/EagleGetProtable_2.1.5.10.zip' -OutFile 'EagleGetProtable_2.1.5.10.zip' & goto EagleGetProtable 
 :: Extraer en winrar
 :EagleGetProtable
-"C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\EagleGetProtable_2.1.5.10.zip C:\Juanelbuenocopiadelosarcivos\progamas\EagleGetProtable
-cd C:\Juanelbuenocopiadelosarcivos\progamas\EagleGetProtable
+"%winrarexe%" x C:\Juanelbuenocopiadelosarcivos\programas\rar\EagleGetProtable_2.1.5.10.zip C:\Juanelbuenocopiadelosarcivos\programas\EagleGetProtable
+cd C:\Juanelbuenocopiadelosarcivos\programas\EagleGetProtable
 start EagleGet.exe
 goto 64
 
@@ -514,7 +604,7 @@ goto 64
 	echo * 3) Salir del menu volver a anterior           *
 	echo *************************************************
 		set /p var=Seleccione una opcion [1-2]: 
-		:: progamas de equipo de wifi
+		:: programas de equipo de wifi
 		if "%var%"=="1" goto Executar1
 		if "%var%"=="2" goto Executar2
 		if "%var%"=="3" goto menu2
@@ -537,31 +627,31 @@ timeout /T 5 >nul
 goto menu3
 
 :Executar1
-cd C:\Juanelbuenocopiadelosarcivos\progamas
+cd C:\Juanelbuenocopiadelosarcivos\programas
 :: si exite se pone la aplicacion
-IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\MSERT.exe start MSERT.exe
+IF EXIST C:\Juanelbuenocopiadelosarcivos\programas\MSERT.exe start MSERT.exe
 :: si no exite se descarga
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\MSERT.exe powershell -command iwr 'https://definitionupdates.microsoft.com/download/DefinitionUpdates/VersionedSignatures/AM/1.345.357.0/amd64/MSERT.exe' -OutFile 'MSERT.exe' & start MSERT.exe
+IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\programas\MSERT.exe powershell -command iwr 'https://definitionupdates.microsoft.com/download/DefinitionUpdates/VersionedSignatures/AM/1.345.357.0/amd64/MSERT.exe' -OutFile 'MSERT.exe' & start MSERT.exe
 goto menu3
 
 :Executar2
 ::
-IF NOT EXIST "C:\Juanelbuenocopiadelosarcivos\progamas\master" md "C:\Juanelbuenocopiadelosarcivos\progamas\master"
+IF NOT EXIST "C:\Juanelbuenocopiadelosarcivos\programas\master" md "C:\Juanelbuenocopiadelosarcivos\programas\master"
 ::
-cd C:\Juanelbuenocopiadelosarcivos\progamas
+cd C:\Juanelbuenocopiadelosarcivos\programas
 :: si exite se pone la aplicacion
-IF EXIST C:\Juanelbuenocopiadelosarcivos\progamas\master\win10script-master\win10debloat.ps1 powershell.exe C:\Juanelbuenocopiadelosarcivos\progamas\master\win10script-master\win10debloat.ps1 & goto menu3
+IF EXIST C:\Juanelbuenocopiadelosarcivos\programas\master\win10script-master\win10debloat.ps1 powershell.exe C:\Juanelbuenocopiadelosarcivos\programas\master\win10script-master\win10debloat.ps1 & goto menu3
 :: si no exite se descarga
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\progamas\master\win10script-master\win10debloat.ps1 cd C:\Juanelbuenocopiadelosarcivos\progamas\rar & powershell -command iwr 'https://github.com/ChrisTitusTech/win10script/archive/refs/heads/master.zip' -OutFile 'master.zip' & goto Programon
+IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\programas\master\win10script-master\win10debloat.ps1 cd C:\Juanelbuenocopiadelosarcivos\programas\rar & powershell -command iwr 'https://github.com/ChrisTitusTech/win10script/archive/refs/heads/master.zip' -OutFile 'master.zip' & goto Programon
 :: Extraer en winrar
 :Programon
-"C:\Juanelbuenocopiadelosarcivos\winrar\Winrar-cmd-main\WinRAR.exe" x C:\Juanelbuenocopiadelosarcivos\progamas\rar\master.zip C:\Juanelbuenocopiadelosarcivos\progamas\master
-cd C:\Juanelbuenocopiadelosarcivos\progamas\master\win10script-master
-powershell.exe C:\Juanelbuenocopiadelosarcivos\progamas\master\win10debloat.ps1
+"%winrarexe%" x C:\Juanelbuenocopiadelosarcivos\programas\rar\master.zip C:\Juanelbuenocopiadelosarcivos\programas\master
+cd C:\Juanelbuenocopiadelosarcivos\programas\master\win10script-master
+powershell.exe C:\Juanelbuenocopiadelosarcivos\programas\master\win10debloat.ps1
 pause
 goto menu3
 
 :salir
-:: del C:\Juanelbuenocopiadelosarcivos\progamas /f /s /q
+:: del C:\Juanelbuenocopiadelosarcivos\programas /f /s /q
 timeout /T 5 > NUL
 goto menu
