@@ -1,6 +1,7 @@
-REM Ruta general
-@shift
 @echo off
+@shift
+REM Ruta general
+set Version=V1.18.10
 set ruta=C:\Juanelbuenocopiadelosarcivos
 set programas=%ruta%\programas
 set rar=%programas%\rar
@@ -8,10 +9,11 @@ set admin=%ruta%\admin
 set winrar=%ruta%\winrar
 set winrarexe=%winrar%\Winrar-cmd-main\WinRAR.exe
 
+
 if $SYSTEM_os_arch==x86 (
-  set Titulo=Juan El Bueno (32 bits)
+  set Titulo=Juan El Bueno %Version% (32 bits)
 ) else (
-  set Titulo=Juan El Bueno (64 bits)
+  set Titulo=Juan El Bueno %Version% (64 bits)
 )
 
 REM Modos de iniciar
@@ -32,7 +34,7 @@ echo **************************************************
 echo.
 echo                  Para Win 10 Y 11 
 echo.
-echo        Version Beta De la Aplicacion V1.17.55  
+echo        Version Beta De la Aplicacion %Version%  
 echo.
 echo **************************************************
 timeout /T 5 >nul
@@ -47,7 +49,12 @@ goto desrar
 )
 
 :wget1
-set /p wgetvof=Quieres administracion (y o n):
+openfiles >nul 2>&1
+if %ErrorLevel% equ 0 ( 
+set wgetvof=y
+) else ( 
+set wgetvof=n
+)
 
 if "%wgetvof%"=="y" (
 IF EXIST C:\Windows\System32\wget.exe ( 
@@ -275,8 +282,6 @@ goto general
 		if "%var%"=="9" goto descagar_archivos_lazamiento
 		if "%var%"=="10" call compmgmt & goto admintareas
 		if "%var%"=="s" goto menu
-		:: Menu de configuracion
-		REM if "%var%"=="1,2" call cmd /c "taskmgr" | call cmd /c "calc" & goto admintareas
 		
 		
 :error
