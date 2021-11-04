@@ -574,9 +574,9 @@ goto 64
 cd %programas%
 :: si exite se pone la aplicacion
 IF EXIST %programas%\Everything.exe (
-start Everything.exe 
+start Everything.exe
+goto 64 
 ) else (
-goto 64
 :: si no exite se descarga
 cd %programas%
 powershell -command iwr 'https://www.voidtools.com/Everything-1.4.1.969.x64.zip' -OutFile 'Everything-1.4.1.969.x64.zip' 
