@@ -21,7 +21,7 @@ if $SYSTEM_os_arch==x86 (
 REM Modos de iniciar
 
 :general
-mode con: cols=52 lines=18  
+REM REM REM mode con: ols=52 lines=18  
 title %Titulo%
 IF NOT EXIST "%ruta%" md "%ruta%"
 IF NOT EXIST "%programas%" md "%programas%"
@@ -92,7 +92,7 @@ goto menu
 :wgetinstalar
 set rutaw=C:\Windows\System32\wget.exe
 
-mode con: cols=80 lines=18
+REM REM REM mode con: ols=80 lines=18
 :: si exite se pone en admin
 IF EXIST %admin%\PowerRun_x64.exe ( 
 cd %admin%
@@ -107,29 +107,29 @@ goto wgetinstalarexe
 :wgetinstalarexe
 IF EXIST %Ruta%\WgetCmd.bat (
 "%admin%\PowerRun_x64.exe" "%Ruta%\WgetCmd.bat"
-mode con: cols=50 lines=18  
+REM REM mode con: ols=50 lines=18  
 timeout /T 17 >nul 
 goto menu
 ) else (
 cd %ruta% 
 powershell -command iwr 'https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/WgetCmd.bat' -OutFile 'WgetCmd.bat'
 "\PowerRun_x64.exe" "WgetCmd.bat" 
-mode con: cols=50 lines=18 
+REM REM mode con: ols=50 lines=18 
 timeout /T 17 >nul
 goto menu
 )
 
 :desrar
-mode con: cols=80 lines=18
+REM REM REM mode con: ols=80 lines=18
 
 IF EXIST %winrarexe% (
 goto wget1
 ) else (
-mode con: cols=80 lines=18
+REM REM mode con: ols=80 lines=18
 cd %Ruta%\winrar 
 powershell -command iwr 'https://github.com/JuanElBueno/Winrar-cmd/archive/refs/heads/main.zip' -OutFile 'WinRAR_6.2.zip' 
 powershell Expand-Archive -LiteralPath '%Ruta%\winrar\WinRAR_6.2.zip' -DestinationPath %Ruta%\winrar 
-mode con: cols=50 lines=18 
+REM REM mode con: ols=50 lines=18 
 goto wget1
 )
 
@@ -183,7 +183,7 @@ goto menu
 
 :informaciondelwifi
 :: nombre de wifi y la contraseña
-mode con: cols=65 lines=15
+REM REM mode con: ols=65 lines=15
 echo ***************
 echo Nombre del wifi
 echo ***************
@@ -191,7 +191,7 @@ netsh wlan show profile
 set /p nombredewifi=Nombre del wifi:
 netsh wlan show profile name=%nombredewifi% key=clear 
 pause
-mode con: cols=50 lines=18  
+REM REM mode con: ols=50 lines=18  
 goto menu
 
 :: Achivos borrados %tempoales%
@@ -199,12 +199,12 @@ goto menu
 cls
 cd %temp%
 @echo on
-mode con: cols=65 lines=15
+REM REM mode con: ols=65 lines=15
 del *.* /f /S /q echo >> achivos_borrados.txt & copy achivos_borrados.txt %Ruta%
 timeout /T 10
 del achivos_borrados.txt /f /s /q
 @echo off
-mode con: cols=50 lines=18 
+REM REM mode con: ols=50 lines=18 
 cls
 goto menu
 
@@ -217,7 +217,7 @@ goto exploreradmin
 ) else (
 :: si no exite se descarga
 cd %admin% 
-powershell -command iwr 'https://github.com/JuanElBueno/Command-Cmd/raw/main/PowerRun_x64.exe' -OutFile 'PowerRun_x64.exe'
+powershell -command iwr 'https://github.com/JuanElBueno/Command-Cmd/raw/main/PowerRun_x64.exe' -OutFile 'PowerRun_x64.exe' 
 )
 :exploreradmin
 "%admin%\PowerRun_x64.exe" "%UserProfile%\Desktop\Comandos.bat" 
@@ -228,11 +228,11 @@ Exit
 :: Ip cuando estas sin intertet
 :ip
 cls
-mode con: cols=70 lines=18
+REM REM mode con: ols=70 lines=18
 title Ip De Google (Acuedate de N para salir)
-ping google.es -t 
+ping google.es -t || goto sinconexion
 cls
-mode con: cols=50 lines=18
+REM REM mode con: ols=50 lines=18
 title %Titulo%
 goto menu
 
@@ -609,23 +609,21 @@ start WizTree64.exe
 goto 64
 
 :programas7
-IF NOT EXIST "%programas%\EagleGetProtable" md "%programas%\EagleGetProtable"
-cd %programas%
-:: si exite se pone la aplicacion
-IF EXIST %programas%\EagleGetProtable\EagleGet.exe ( 
-start EagleGet.exe
+IF NOT EXIST "%programas%\uget" md "%programas%\uget"
+IF EXIST %programas%\uget\bin\uget.exe (
+pause
+start uget.exe
 goto 64
 ) else (
-:: si no exite se descarga 
 cd %rar%
-powershell -command iwr 'http://dl.eagleget.com/latest/EagleGetProtable_2.1.5.10.zip' -OutFile 'EagleGetProtable_2.1.5.10.zip'
-goto EagleGetProtable 
+powershell -command iwr 'https://github.com/JuanElBueno/getu/raw/main/getu.7z' -OutFile 'uget.7z'
+goto uget
 )
 :: Extraer en winrar
-:EagleGetProtable
-"%winrarexe%" x %rar%\EagleGetProtable_2.1.5.10.zip %programas%\EagleGetProtable
-cd %programas%\EagleGetProtable
-start EagleGet.exe
+:uget
+"%winrarexe%" x %rar%\uget.7z %programas%\uget
+cd %programas%\uget\bin
+start uget.exe
 goto 64
 
 
