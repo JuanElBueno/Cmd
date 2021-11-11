@@ -3,7 +3,7 @@
 color 9f
 REM Ruta general
 set Beta=alfa
-set Version=V1.19.01
+set Version=V1.19.13
 set ruta=C:\Juanelbuenocopiadelosarcivos
 set programas=%ruta%\programas
 set rar=%programas%\rar
@@ -11,17 +11,16 @@ set admin=%ruta%\admin
 set winrar=%ruta%\winrar
 set winrarexe=%winrar%\Winrar-cmd-main\WinRAR.exe
 
-
 if $SYSTEM_os_arch==x86 (
   set Titulo=Juan El Bueno %Version% (32 bits)
 ) else (
   set Titulo=Juan El Bueno %Version% (64 bits)
 )
 
-REM Modos de iniciar
 
+REM Modos de iniciar
 :general
-REM REM REM mode con: ols=52 lines=18  
+mode con: cols=52 lines=18  
 title %Titulo%
 IF NOT EXIST "%ruta%" md "%ruta%"
 IF NOT EXIST "%programas%" md "%programas%"
@@ -45,7 +44,7 @@ goto wget1
 ) else (
 echo [+]Programas Necesarios WinRAR & timeout /T 5 >nul
 goto desrar
-)
+) 
 
 :wget1
 openfiles >nul 2>&1
@@ -57,7 +56,7 @@ set wgetvof=n
 
 if "%wgetvof%"=="y" (
 IF EXIST C:\Windows\System32\wget.exe ( 
-echo [+]Progama istalado Exitosa Wget [administracion]
+echo [+]Progama Istalado Exitosa Wget [administracion]
 timeout /T 5 >nul 
 goto menu
 ) else (
@@ -77,7 +76,7 @@ timeout /T 5 >nul
 ))
 
 :wgetsinad
-set rutaw=C:\Juanelbuenocopiadelosarcivos\wget.exe
+set rutaw="%ruta%\wget.exe"
 
 IF EXIST %Ruta%\wget.exe ( 
 echo [+]Progama istalado Exitosa Wget [No administracion]
@@ -85,14 +84,14 @@ timeout /T 5 >nul
 goto menu
 ) else (
 cd %ruta%
-powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.1/32/wget.exe' -OutFile 'wget.exe' 
+powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.2/64/wget.exe' -OutFile 'wget.exe' 
 goto menu
 )
 
 :wgetinstalar
-set rutaw=C:\Windows\System32\wget.exe
+set rutaw="C:\Windows\System32\wget.exe"
 
-REM REM REM mode con: ols=80 lines=18
+mode con: cols=80 lines=18
 :: si exite se pone en admin
 IF EXIST %admin%\PowerRun_x64.exe ( 
 cd %admin%
@@ -107,29 +106,28 @@ goto wgetinstalarexe
 :wgetinstalarexe
 IF EXIST %Ruta%\WgetCmd.bat (
 "%admin%\PowerRun_x64.exe" "%Ruta%\WgetCmd.bat"
-REM REM mode con: ols=50 lines=18  
+mode con: cols=50 lines=18  
 timeout /T 17 >nul 
 goto menu
 ) else (
 cd %ruta% 
 powershell -command iwr 'https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/WgetCmd.bat' -OutFile 'WgetCmd.bat'
-"\PowerRun_x64.exe" "WgetCmd.bat" 
-REM REM mode con: ols=50 lines=18 
+"%admin%\PowerRun_x64.exe" "WgetCmd.bat" 
+mode con: cols=50 lines=18 
 timeout /T 17 >nul
 goto menu
 )
 
 :desrar
-REM REM REM mode con: ols=80 lines=18
-
+mode con: cols=80 lines=18
 IF EXIST %winrarexe% (
 goto wget1
 ) else (
-REM REM mode con: ols=80 lines=18
+mode con: cols=80 lines=18
 cd %Ruta%\winrar 
 powershell -command iwr 'https://github.com/JuanElBueno/Winrar-cmd/archive/refs/heads/main.zip' -OutFile 'WinRAR_6.2.zip' 
 powershell Expand-Archive -LiteralPath '%Ruta%\winrar\WinRAR_6.2.zip' -DestinationPath %Ruta%\winrar 
-REM REM mode con: ols=50 lines=18 
+mode con: cols=50 lines=18 
 goto wget1
 )
 
@@ -161,7 +159,7 @@ REM 						Menu de inicio
 		if "%var%"=="9" echo [+] Salendo... & timeout /T 2 >nul & Exit
 		:: o=menu2 r=reset 
 		if "%var%"=="o" goto menu2
-		if "%var%"=="r" goto reset
+		if "%var%"=="r" goto general
 		if "%var%"=="d" goto Combertidor_de_yt
 		
 :: Error de comandos
@@ -183,7 +181,7 @@ goto menu
 
 :informaciondelwifi
 :: nombre de wifi y la contraseña
-REM REM mode con: ols=65 lines=15
+mode con: ols=65 lines=15
 echo ***************
 echo Nombre del wifi
 echo ***************
@@ -191,7 +189,7 @@ netsh wlan show profile
 set /p nombredewifi=Nombre del wifi:
 netsh wlan show profile name=%nombredewifi% key=clear 
 pause
-REM REM mode con: ols=50 lines=18  
+mode con: cols=50 lines=18  
 goto menu
 
 :: Achivos borrados %tempoales%
@@ -199,12 +197,12 @@ goto menu
 cls
 cd %temp%
 @echo on
-REM REM mode con: ols=65 lines=15
+mode con: ols=65 lines=15
 del *.* /f /S /q echo >> achivos_borrados.txt & copy achivos_borrados.txt %Ruta%
 timeout /T 10
 del achivos_borrados.txt /f /s /q
 @echo off
-REM REM mode con: ols=50 lines=18 
+mode con: cols=50 lines=18 
 cls
 goto menu
 
@@ -228,11 +226,11 @@ Exit
 :: Ip cuando estas sin intertet
 :ip
 cls
-REM REM mode con: ols=70 lines=18
+mode con: ols=70 lines=18
 title Ip De Google (Acuedate de N para salir)
 ping google.es -t || goto sinconexion
 cls
-REM REM mode con: ols=50 lines=18
+mode con: cols=50 lines=18
 title %Titulo%
 goto menu
 
@@ -246,10 +244,6 @@ taskkill.exe /f /fi "status eq Not Responding" & timeout /T 10 & goto menu
 cls
 TASKKILL /F /IM explorer.exe & timeout /nobreak 10 & start explorer.exe
 goto menu
-
-:reset
-goto general
-
 
 :admintareas
 	cls
@@ -312,7 +306,7 @@ goto admintareas
 cd %programas%
 set /p descagar1=Que archivo quieres descagar:
 set /p nombre2=Nombre del achivo: 
-powershell -command iwr '%descagar1%' -OutFile '%nombre2%' & explorer C:\Juanelbuenocopiadelosarcivos\programas & goto admintareas	
+powershell -command iwr '%descagar1%' -OutFile '%nombre2%' & explorer %programas% & goto admintareas	
 
 :Combertidor_de_yt
 cls
@@ -343,7 +337,7 @@ IF EXIST %programas%\youtube-dl.exe (
 goto descagar_yt_programa
 ) else (
 cd %programas%
-%rutaw% https://youtube-dl.org/downloads/latest/youtube-dl.exe 
+%rutaw% "https://youtube-dl.org/downloads/latest/youtube-dl.exe"
 title %Titulo% 
 goto descagar_yt_programa
 )
@@ -362,7 +356,9 @@ cd %programas%
 IF EXIST %programas%\ffmpeg.exe (
 goto mp3_combertidor_haciendo
 ) else (
-%rutaw% https://github.com/JuanElBueno/Command-Cmd/raw/main/ffmpeg.exe & title %Titulo% & goto mp3_combertidor_haciendo
+%rutaw% https://github.com/JuanElBueno/Command-Cmd/raw/main/ffmpeg.exe 
+title %Titulo% 
+goto mp3_combertidor_haciendo
 )
 :mp3_combertidor_haciendo
 cd %programas%
@@ -378,7 +374,7 @@ goto Combertidor_de_yt
 :: menu2 de programas de descagar
 :menu2
 if $SYSTEM_os_arch==x86 (
-  Echo Programa no compatible & timeout /T 10 >nul & goto menu
+  Echo Programa no compatible de 32 & timeout /T 10 >nul & goto menu
 ) else (
   goto 64
 )
@@ -514,18 +510,18 @@ goto 64
 :programas2
 cd %programas%
 :: si exite se pone la aplicacion
-IF EXIST C:\Juanelbuenocopiadelosarcivos\programas\speedtest.exe (
+IF EXIST %programas%\speedtest.exe (
 start cmd /c speedtest.exe
 goto 64
 ) else (
 :: si no exite se descarga
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\programas\speedtest.exe 
 cd %rar% 
 powershell -command iwr 'https://install.speedtest.net/app/cli/ookla-speedtest-1.0.0-win64.zip' -OutFile 'speedtest-win64.zip'
 goto speed
 )
 :speed
-"%winrarexe%" x %porgramas%\rar\speedtest-win64.zip %porgramas%
+cd %rar%
+"%winrarexe%" x speedtest-win64.zip %programas%
 cd C:\Juanelbuenocopiadelosarcivos\programas
 start speedtest.exe
 goto 64
