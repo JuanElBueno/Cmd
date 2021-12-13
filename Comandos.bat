@@ -2,14 +2,16 @@
 @shift
 color 9f
 REM Ruta general
-set Beta=alfa
-set Version=V1.19.13
+set Beta=Beta
+set Version=V1.19.14
 set ruta=C:\Juanelbuenocopiadelosarcivos
 set programas=%ruta%\programas
 set rar=%programas%\rar
 set admin=%ruta%\admin
 set winrar=%ruta%\winrar
 set winrarexe=%winrar%\Winrar-cmd-main\WinRAR.exe
+set titulo1=Juan El Bueno
+set modo=off
 
 if $SYSTEM_os_arch==x86 (
   set Titulo=Juan El Bueno %Version% (32 bits)
@@ -40,6 +42,7 @@ timeout /T 5 >nul
 REM Programas necesarios para iniciar
 
 IF EXIST %winrarexe% (
+echo [+]Progama Istalado Exitosa WinRAR & timeout /T 5 >nul
 goto wget1
 ) else (
 echo [+]Programas Necesarios WinRAR & timeout /T 5 >nul
@@ -157,10 +160,16 @@ REM 						Menu de inicio
 		if "%var%"=="7" goto norespondeexplore
 		if "%var%"=="8" goto Administradorcmd
 		if "%var%"=="9" echo [+] Salendo... & timeout /T 2 >nul & Exit
-		:: o=menu2 r=reset 
+		REM modo de ingeneria
+		if "%modo%"=="on" (
 		if "%var%"=="o" goto menu2
 		if "%var%"=="r" goto general
 		if "%var%"=="d" goto Combertidor_de_yt
+	) else (
+	echo [+] No disponible modo Administracion de Que a hecho la aplicacion %Titulo1%...
+	timeout /T 2 >nul
+	goto menu 
+	)
 		
 :: Error de comandos
 :error
@@ -181,7 +190,7 @@ goto menu
 
 :informaciondelwifi
 :: nombre de wifi y la contraseña
-mode con: ols=65 lines=15
+mode con: cols=65 lines=15
 echo ***************
 echo Nombre del wifi
 echo ***************
@@ -197,7 +206,7 @@ goto menu
 cls
 cd %temp%
 @echo on
-mode con: ols=65 lines=15
+mode con: cols=65 lines=15
 del *.* /f /S /q echo >> achivos_borrados.txt & copy achivos_borrados.txt %Ruta%
 timeout /T 10
 del achivos_borrados.txt /f /s /q
@@ -622,20 +631,21 @@ goto 64
 	echo *                      MENU                     *
 	echo *************************************************
 	echo * 1) Programas Examen de seguridad de Microsoft *
-	echo * 2) Programas Optimizar el windows 100%         *
-	::echo * 3) Programas*
+	echo * 2) Programas Optimizar el windows 100%        *
+	echo * 3) Programas Spotify 100%                     *
 	::echo * 4) Programas*
 	::echo * 5) Programas*
 	::echo * 6) Programas*
 	::echo * 7) Programas*
 	::echo * 8) Programas*
-	echo * 3) Salir del menu volver a anterior           *
+	echo * 4) Salir del menu volver a anterior           *
 	echo *************************************************
-		set /p var=Seleccione una opcion [1-3]: 
+		set /p var=Seleccione una opcion [1-4]: 
 		:: programas de equipo de wifi
 		if "%var%"=="1" goto Executar1
 		if "%var%"=="2" goto Executar2
-		if "%var%"=="3" goto menu2
+		if "%var%"=="3" goto Executar3
+		if "%var%"=="4" goto menu2
 		::if "%var%"=="4" goto 
 		::if "%var%"=="5" goto 
 		::if "%var%"=="6" goto 
@@ -689,6 +699,13 @@ cd %programas%\master\win10script-master
 powershell.exe %programas%\master\win10debloat.ps1
 pause
 goto menu3
+
+:Executar3
+powershell -Command "& {Invoke-WebRequest -UseBasicParsing 'https://raw.githubusercontent.com/mrpond/BlockTheSpot/master/install.ps1' | Invoke-Expression}"
+echo [+] Listo Spotify Full Sin Anuncios & timeout /T 3 >nul
+goto menu3
+
+
 
 :salir
 ::del %ruta% /f /s /q
