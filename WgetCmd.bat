@@ -1,13 +1,30 @@
 @echo off
-IF EXIST C:\Windows\System32\wget.exe echo Execuction Exitosa & echo [+] Salendo... & timeout /T 2 >nul & Exit
-IF NOT EXIST C:\Windows\System32\wget.exe goto 32o64
+color 9f
+
+IF EXIST C:\Windows\System32\wget.exe ( 
+echo Execuction Exitosa
+echo.
+echo [+] Salendo...
+timeout /T 3 >nul 
+Exit
+) else (
+goto 32o64
+)
 :32o64
 if $SYSTEM_os_arch==x86 (
 cd C:\Windows\System32
 powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.1/32/wget.exe' -OutFile 'wget.exe'
-echo Usando 32bits & timeout /T 3 >nul & echo [+] Salendo... & timeout /T 2 >nul & Exit
+echo Usando 32bits 
+echo.
+echo [+] Salendo...
+timeout /T 6 >nul 
+Exit
 ) else (
 cd C:\Windows\System32
 powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.1/64/wget.exe' -OutFile 'wget.exe'
-echo Usando 64bits & timeout /T 3 >nul & echo [+] Salendo... & timeout /T 2 >nul & Exit
+echo Usando 64bits
+echo.
+echo [+] Salendo... 
+timeout /T 6 >nul 
+Exit
 )
