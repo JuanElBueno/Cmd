@@ -3,7 +3,7 @@
 color 9f
 REM Ruta general
 set Beta=Beta
-set Version=V1.19.14
+set Version=V2.1.0
 set ruta=C:\Juanelbuenocopiadelosarcivos
 set programas=%ruta%\programas
 set rar=%programas%\rar
@@ -11,7 +11,7 @@ set admin=%ruta%\admin
 set winrar=%ruta%\winrar
 set winrarexe=%winrar%\Winrar-cmd-main\WinRAR.exe
 set titulo1=Juan El Bueno
-set modo=off
+set modo=on
 
 if $SYSTEM_os_arch==x86 (
   set Titulo=Juan El Bueno %Version% (32 bits)
@@ -76,6 +76,7 @@ goto menu
 ) else (
 echo [+]Programas Necesarios Wget [No administracion] 
 timeout /T 5 >nul
+goto wgetsinad
 ))
 
 :wgetsinad
@@ -87,9 +88,24 @@ timeout /T 5 >nul
 goto menu
 ) else (
 cd %ruta%
-powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.2/64/wget.exe' -OutFile 'wget.exe' 
+REM 64 o 32
+
+if $SYSTEM_os_arch==x86 (
+cd %ruta%
+powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.1/32/wget.exe' -OutFile 'wget.exe'
+echo %titulo%
+echo.
+echo [+] Salendo... 
+timeout /T 6 >nul & goto menu
+) else (
+cd %ruta%
+powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.1/64/wget.exe' -OutFile 'wget.exe'
+echo %titulo% 
+echo.
+echo [+] Salendo... 
+timeout /T 6 >nul 
 goto menu
-)
+))
 
 :wgetinstalar
 set rutaw="C:\Windows\System32\wget.exe"
@@ -165,11 +181,11 @@ REM 						Menu de inicio
 		if "%var%"=="o" goto menu2
 		if "%var%"=="r" goto general
 		if "%var%"=="d" goto Combertidor_de_yt
-	) else (
-	echo [+] No disponible modo Administracion de Que a hecho la aplicacion %Titulo1%...
-	timeout /T 2 >nul
-	goto menu 
-	)
+		) else (
+		echo [+] No disponible modo Administracion de Que a hecho la aplicacion %Titulo1%...
+		timeout /T 2 >nul
+		goto menu 
+		)
 		
 :: Error de comandos
 :error
@@ -704,7 +720,6 @@ goto menu3
 powershell -Command "& {Invoke-WebRequest -UseBasicParsing 'https://raw.githubusercontent.com/mrpond/BlockTheSpot/master/install.ps1' | Invoke-Expression}"
 echo [+] Listo Spotify Full Sin Anuncios & timeout /T 3 >nul
 goto menu3
-
 
 
 :salir
