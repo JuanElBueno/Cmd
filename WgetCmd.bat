@@ -1,6 +1,15 @@
 @echo off
 color 9f
 
+set Version=V1.0
+
+if $SYSTEM_os_arch==x86 (
+  set Titulo=Juan El Bueno %Version% (32 bits)
+) else (
+  set Titulo=Juan El Bueno %Version% (64 bits)
+)
+
+
 IF EXIST C:\Windows\System32\wget.exe ( 
 echo Execuction Exitosa
 echo.
