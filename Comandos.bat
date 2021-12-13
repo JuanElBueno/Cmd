@@ -11,7 +11,7 @@ set admin=%ruta%\admin
 set winrar=%ruta%\winrar
 set winrarexe=%winrar%\Winrar-cmd-main\WinRAR.exe
 set titulo1=Juan El Bueno
-set modo=on
+set modo=off
 
 if $SYSTEM_os_arch==x86 (
   set Titulo=Juan El Bueno %Version% (32 bits)
