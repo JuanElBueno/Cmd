@@ -3,7 +3,7 @@
 color 9f
 REM Ruta general
 set Beta=Beta
-set Version=V2.1.0
+set Version=V2.2.1
 set ruta=C:\Juanelbuenocopiadelosarcivos
 set programas=%ruta%\programas
 set rar=%programas%\rar
@@ -11,12 +11,12 @@ set admin=%ruta%\admin
 set winrar=%ruta%\winrar
 set winrarexe=%winrar%\Winrar-cmd-main\WinRAR.exe
 set titulo1=Juan El Bueno
-set modo=off
+set modo=on
 
 if $SYSTEM_os_arch==x86 (
-  set Titulo=Juan El Bueno %Version% (32 bits)
+  set Titulo=%titulo1% %Version% (32 bits)
 ) else (
-  set Titulo=Juan El Bueno %Version% (64 bits)
+  set Titulo=%titulo1% %Version% (64 bits)
 )
 
 
@@ -69,7 +69,7 @@ goto wgetinstalar
 ))
  
 if "%wgetvof%"=="n" (
-IF EXIST C:\Juanelbuenocopiadelosarcivos\wget.exe ( 
+IF EXIST %Ruta%\wget.exe ( 
 echo [+]Progama Istalado Exitosa Wget [No administracion] 
 timeout /T 5 >nul 
 goto menu
@@ -83,29 +83,24 @@ goto wgetsinad
 set rutaw="%ruta%\wget.exe"
 
 IF EXIST %Ruta%\wget.exe ( 
-echo [+]Progama istalado Exitosa Wget [No administracion]
+echo [+]Progama Istalado Exitosa Wget [No administracion]
 timeout /T 5 >nul
 goto menu
 ) else (
-cd %ruta%
-REM 64 o 32
-
 if $SYSTEM_os_arch==x86 (
 cd %ruta%
 powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.1/32/wget.exe' -OutFile 'wget.exe'
-echo %titulo%
 echo.
-echo [+] Salendo... 
-timeout /T 6 >nul & goto menu
+timeout /T 6 >nul
+goto menu
 ) else (
 cd %ruta%
-powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.1/64/wget.exe' -OutFile 'wget.exe'
-echo %titulo% 
-echo.
-echo [+] Salendo... 
+powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.1/64/wget.exe' -OutFile 'wget.exe' 
+echo. 
 timeout /T 6 >nul 
 goto menu
 ))
+
 
 :wgetinstalar
 set rutaw="C:\Windows\System32\wget.exe"
@@ -182,8 +177,8 @@ REM 						Menu de inicio
 		if "%var%"=="r" goto general
 		if "%var%"=="d" goto Combertidor_de_yt
 		) else (
-		echo [+] No disponible modo Administracion de Que a hecho la aplicacion %Titulo1%...
-		timeout /T 2 >nul
+		echo [+] No disponible modo Administracion de que a hecho la aplicacion %Titulo1%...
+		timeout /T 6 >nul
 		goto menu 
 		)
 		
@@ -467,7 +462,7 @@ REM goto m3
 	echo * 3) Programas Test de velocidad               *
 	echo * 4) Programas Autoruns64                      *
 	echo * 5) Programas Task Manager                    *
-	echo * 6) Programas Administrador de achivo         *
+	echo * 6) Programas Administrador de archivo        *
 	echo * 7) Programas Buscador achivos                *
 	echo * 8) Programas Descargar_Achivos               *
 	echo * 9) Salir del menu volver a anterior          *
@@ -592,13 +587,13 @@ start Everything.exe
 goto 64 
 ) else (
 :: si no exite se descarga
-cd %programas%
-powershell -command iwr 'https://www.voidtools.com/Everything-1.4.1.969.x64.zip' -OutFile 'Everything-1.4.1.969.x64.zip' 
-goto Everything
+cd %rar%
+powershell -command iwr 'https://www.voidtools.com/Everything-1.4.1.969.x64.zip' -OutFile 'everything-1.4.1.969.x64.zip' 
+goto Everythingin
 )
-:Everything
+:Everythingin
 :: Extraer en winrar
-"%winrarexe%" x %rar%\Everything-1.4.1.969.x64.zip %programas%
+"%winrarexe%" x %rar%\everything-1.4.1.969.x64.zip %programas%
 cd %programas%
 start Everything.exe
 goto 64
