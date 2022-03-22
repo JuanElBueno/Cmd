@@ -3,7 +3,7 @@
 color 9f
 REM Ruta general
 set Beta=Alfa
-set Version=V2.2.1
+set Version=V2.3.3
 set ruta=C:\Juanelbuenocopiadelosarcivos
 set programas=%ruta%\programas
 set rar=%programas%\rar
@@ -13,12 +13,15 @@ set winrarexe=%winrar%\Winrar-cmd-main\WinRAR.exe
 set titulo1=Juan El Bueno
 set modo=on
 
-if $SYSTEM_os_arch==x86 (
-  set Titulo=%titulo1% %Version% (32 bits)
-) else (
-  set Titulo=%titulo1% %Version% (64 bits)
-)
+ping -n 1 8.8.8.8
+if %ERRORLEVEL% == 1 goto sinconexioni
 
+:titulot
+if $SYSTEM_os_arch==x86 (
+  set Titulo=%titulo1% %Version% %sinconexiona%(32 bits)
+) else (
+  set Titulo=%titulo1% %Version% %sinconexiona%(64 bits)
+)
 
 REM Modos de iniciar
 :general
@@ -43,11 +46,44 @@ REM Programas necesarios para iniciar
 
 IF EXIST %winrarexe% (
 echo [+]Progama Istalado Exitosa WinRAR & timeout /T 5 >nul
-goto wget1
+goto admin
 ) else (
 echo [+]Programas Necesarios WinRAR & timeout /T 5 >nul
 goto desrar
 ) 
+
+:desrar
+IF EXIST %winrarexe% (
+goto admin
+) else (
+mode con: cols=80 lines=18
+cd %Ruta%\winrar 
+powershell -command iwr 'https://github.com/JuanElBueno/Winrar-cmd/archive/refs/heads/main.zip' -OutFile 'WinRAR_6.2.zip' 
+powershell Expand-Archive -LiteralPath '%Ruta%\winrar\WinRAR_6.2.zip' -DestinationPath %Ruta%\winrar 
+mode con: cols=50 lines=18 
+goto admin
+)
+
+:admin
+IF EXIST %admin%\PowerRun_x64.exe (
+echo [+]Progama Istalado Exitosa PowerRun & timeout /T 5 >nul
+goto wget1
+) else (
+echo [+]Programas Necesarios PowerRun & timeout /T 5 >nul
+goto admindes
+) 
+
+:admindes
+:: si exite se pone en admin
+IF EXIST %admin%\PowerRun_x64.exe ( 
+goto wget1
+) else (
+:: si no exite se descarga
+cd %admin%
+powershell -command iwr 'https://github.com/JuanElBueno/Command-Cmd/raw/main/PowerRun_x64.exe' -OutFile 'PowerRun_x64.exe' 
+goto wget1
+)
+
 
 :wget1
 openfiles >nul 2>&1
@@ -101,48 +137,18 @@ timeout /T 6 >nul
 goto menu
 ))
 
-
 :wgetinstalar
 set rutaw="C:\Windows\System32\wget.exe"
 
-mode con: cols=80 lines=18
-:: si exite se pone en admin
-IF EXIST %admin%\PowerRun_x64.exe ( 
-cd %admin%
-goto wgetinstalarexe
-) else (
-:: si no exite se descarga
-cd %admin%
-powershell -command iwr 'https://github.com/JuanElBueno/Command-Cmd/raw/main/PowerRun_x64.exe' -OutFile 'PowerRun_x64.exe' 
-goto wgetinstalarexe
-)
-
-:wgetinstalarexe
 IF EXIST %Ruta%\WgetCmd.bat (
-"%admin%\PowerRun_x64.exe" "%Ruta%\WgetCmd.bat"
-mode con: cols=50 lines=18  
-timeout /T 17 >nul 
 goto menu
 ) else (
 cd %ruta% 
 powershell -command iwr 'https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/WgetCmd.bat' -OutFile 'WgetCmd.bat'
-"%admin%\PowerRun_x64.exe" "WgetCmd.bat" 
+start WgetCmd.bat
 mode con: cols=50 lines=18 
 timeout /T 17 >nul
 goto menu
-)
-
-:desrar
-mode con: cols=80 lines=18
-IF EXIST %winrarexe% (
-goto wget1
-) else (
-mode con: cols=80 lines=18
-cd %Ruta%\winrar 
-powershell -command iwr 'https://github.com/JuanElBueno/Winrar-cmd/archive/refs/heads/main.zip' -OutFile 'WinRAR_6.2.zip' 
-powershell Expand-Archive -LiteralPath '%Ruta%\winrar\WinRAR_6.2.zip' -DestinationPath %Ruta%\winrar 
-mode con: cols=50 lines=18 
-goto wget1
 )
 
 REM 						Menu de inicio
@@ -175,7 +181,8 @@ REM 						Menu de inicio
 		if "%modo%"=="on" (
 		if "%var%"=="o" goto menu2
 		if "%var%"=="r" goto general
-		if "%var%"=="d" goto Combertidor_de_yt
+		if "%var%"=="y" goto Combertidor_de_yt
+		REM if "%var%"=="d" goto Istalador_de_paquetes
 		) else (
 		echo [+] No disponible modo Administracion de que a hecho la aplicacion %Titulo1%...
 		timeout /T 6 >nul
@@ -218,26 +225,17 @@ cls
 cd %temp%
 @echo on
 mode con: cols=65 lines=15
-del *.* /f /S /q echo >> achivos_borrados.txt & copy achivos_borrados.txt %Ruta%
-timeout /T 10
-del achivos_borrados.txt /f /s /q
+del *.* /f /S /q >> achivos_borrados.txt & copy achivos_borrados.txt %Ruta%
 @echo off
+timeout /T 10
 mode con: cols=50 lines=18 
+del achivos_borrados.txt /f /s /q
 cls
 goto menu
 
-:Administradorcmd
 ::powershell -command iwr 'https://www.sordum.org/files/download/power-run/PowerRun.zip' -OutFile 'PowerRun.zip'
 
-:: si exite se pone en admin
-IF EXIST %admin%\PowerRun_x64.exe ( 
-goto exploreradmin
-) else (
-:: si no exite se descarga
-cd %admin% 
-powershell -command iwr 'https://github.com/JuanElBueno/Command-Cmd/raw/main/PowerRun_x64.exe' -OutFile 'PowerRun_x64.exe' 
-)
-:exploreradmin
+:Administradorcmd
 "%admin%\PowerRun_x64.exe" "%UserProfile%\Desktop\Comandos.bat" 
 echo [+] Salendo...
 timeout /T 2 >nul 
@@ -248,11 +246,12 @@ Exit
 cls
 mode con: ols=70 lines=18
 title Ip De Google (Acuedate de N para salir)
-ping google.es -t || goto sinconexion
+ping google.es -t
 cls
 mode con: cols=50 lines=18
 title %Titulo%
 goto menu
+
 
 :: No responde los porgramas
 :noresponde
@@ -264,6 +263,18 @@ taskkill.exe /f /fi "status eq Not Responding" & timeout /T 10 & goto menu
 cls
 TASKKILL /F /IM explorer.exe & timeout /nobreak 10 & start explorer.exe
 goto menu
+
+:Istalador_de_paquetes
+:: si exite se pone en admin
+IF EXIST %programas%\Progamas.bat ( 
+echo [+]Progama Istalado Exitosamente & timeout /T 5 >nul
+goto menu
+) else (
+:: si no exite se descarga
+cd %programas%
+powershell -command iwr '' -OutFile '' 
+goto menu
+)
 
 :admintareas
 	cls
@@ -357,7 +368,7 @@ IF EXIST %programas%\youtube-dl.exe (
 goto descagar_yt_programa
 ) else (
 cd %programas%
-%rutaw% "https://youtube-dl.org/downloads/latest/youtube-dl.exe"
+powershell -command iwr 'https://youtube-dl.org/downloads/latest/youtube-dl.exe' -OutFile 'youtube-dl.exe'
 title %Titulo% 
 goto descagar_yt_programa
 )
@@ -521,7 +532,7 @@ IF EXIST C:\Juanelbuenocopiadelosarcivos\programas\MegaBasterd.jar (
 start cmd /c java -jar MegaBasterd.jar
 ) else (
 :: si no exite se descarga
-powershell -command iwr 'https://github.com/tonikelope/megabasterd/releases/download/v7.43/MegaBasterd_7.43.jar' -OutFile 'MegaBasterd.jar' 
+powershell -command iwr 'https://github.com/tonikelope/megabasterd/releases/download/v7.49/MegaBasterd_7.49.jar' -OutFile 'MegaBasterd.jar' 
 cd %programas% 
 start cmd /c java -jar MegaBasterd.jar
 goto 64
@@ -607,7 +618,7 @@ goto 64
 ) else (
 :: si no exite se descarga
 cd %rar%
-powershell -command iwr 'https://wiztreefree.com/files/wiztree_3_39_portable.zip' -OutFile 'wiztree_3_39_portable.zip'
+powershell -command iwr 'https://diskanalyzer.com/files/wiztree_4_08_portable.zip' -OutFile 'wiztree_3_39_portable.zip'
 goto wiztreeportable 
 )
 :: Extraer en winrar
@@ -694,15 +705,15 @@ IF NOT EXIST "%programas%\master" md "%programas%\master"
 cd %programas%
 :: si exite se pone la aplicacion
 IF EXIST %programas%\master\win10script-master\win10debloat.ps1 (
-powershell.exe %programas%\master\win10script-master\win10debloat.ps1 
+powershell.exe -Command %programas%\master\win10script-master\win10debloat.ps1
 goto menu3
 ) else (
-:: si no exite se descarga
-IF NOT EXIST C:\Juanelbuenocopiadelosarcivos\programas\master\win10script-master\win10debloat.ps1 
+:: si no exite se descarga 
 cd C:\Juanelbuenocopiadelosarcivos\programas\rar  
 powershell -command iwr 'https://github.com/ChrisTitusTech/win10script/archive/refs/heads/master.zip' -OutFile 'master.zip' 
 goto Programon
 )
+
 :: Extraer en winrar
 :Programon
 "%winrarexe%" x %programas%\rar\master.zip %programas%\master
@@ -712,10 +723,21 @@ pause
 goto menu3
 
 :Executar3
-powershell -Command "& {Invoke-WebRequest -UseBasicParsing 'https://raw.githubusercontent.com/mrpond/BlockTheSpot/master/install.ps1' | Invoke-Expression}"
+powershell  "& {Invoke-WebRequest -UseBasicParsing 'https://raw.githubusercontent.com/mrpond/BlockTheSpot/master/install.ps1' | Invoke-Expression}"
 echo [+] Listo Spotify Full Sin Anuncios & timeout /T 3 >nul
 goto menu3
 
+:sinconexioni
+set sinconexiona=No tienes internet
+mode con: cols=52 lines=18 
+cls
+echo *************************************************
+echo.
+echo * No tienes internet vuelve intentalo mas tarde *
+echo.
+echo *************************************************
+timeout /T 5 >nul
+goto titulot
 
 :salir
 ::del %ruta% /f /s /q
