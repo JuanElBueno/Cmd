@@ -3,7 +3,7 @@
 color 9f
 REM Ruta general
 set Beta=Alfa
-set Version=V2.3.3
+set Version=V2.3.6
 set ruta=C:\Juanelbuenocopiadelosarcivos
 set programas=%ruta%\programas
 set rar=%programas%\rar
@@ -56,11 +56,9 @@ goto desrar
 IF EXIST %winrarexe% (
 goto admin
 ) else (
-mode con: cols=80 lines=18
 cd %Ruta%\winrar 
 powershell -command iwr 'https://github.com/JuanElBueno/Winrar-cmd/archive/refs/heads/main.zip' -OutFile 'WinRAR_6.2.zip' 
 powershell Expand-Archive -LiteralPath '%Ruta%\winrar\WinRAR_6.2.zip' -DestinationPath %Ruta%\winrar 
-mode con: cols=50 lines=18 
 goto admin
 )
 
@@ -225,11 +223,11 @@ cls
 cd %temp%
 @echo on
 mode con: cols=65 lines=15
-del *.* /f /S /q >> achivos_borrados.txt & copy achivos_borrados.txt %Ruta%
+del *.* /f /S /q >> %Ruta%\achivos_borrados.txt
+rmdir /s /q "%UserProfile%\AppData\Local\Temp" >> %Ruta%\achivos_borrados.txt
 @echo off
 timeout /T 10
-mode con: cols=50 lines=18 
-del achivos_borrados.txt /f /s /q
+mode con: cols=50 lines=18
 cls
 goto menu
 
@@ -525,14 +523,14 @@ goto 64
 
 :programas1
 cd %programas%
-REM IF NOT EXIST "C:\Program Files\Java\jre1.8.0_301\bin\java.exe" echo [+]Programas necesarios Java & timeout /T 5 >nul & goto 64
+IF NOT EXIST "java.exe" echo [+]Programas necesarios Java & timeout /T 5 >nul & goto 64
 
 :: si exite se pone la aplicacion
 IF EXIST C:\Juanelbuenocopiadelosarcivos\programas\MegaBasterd.jar (
 start cmd /c java -jar MegaBasterd.jar
 ) else (
 :: si no exite se descarga
-powershell -command iwr 'https://github.com/tonikelope/megabasterd/releases/download/v7.49/MegaBasterd_7.49.jar' -OutFile 'MegaBasterd.jar' 
+powershell -command iwr 'https://github.com/tonikelope/megabasterd/releases/download/v7.50/MegaBasterd_7.50.jar' -OutFile 'MegaBasterd.jar' 
 cd %programas% 
 start cmd /c java -jar MegaBasterd.jar
 goto 64
@@ -723,8 +721,12 @@ pause
 goto menu3
 
 :Executar3
-powershell  "& {Invoke-WebRequest -UseBasicParsing 'https://raw.githubusercontent.com/mrpond/BlockTheSpot/master/install.ps1' | Invoke-Expression}"
+
+
+powershell -Command "& {[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -UseBasicParsing 'https://raw.githubusercontent.com/mrpond/BlockTheSpot/master/install.ps1' | Invoke-Expression}"
 echo [+] Listo Spotify Full Sin Anuncios & timeout /T 3 >nul
+
+
 goto menu3
 
 :sinconexioni
