@@ -523,7 +523,7 @@ goto 64
 
 :programas1
 cd %programas%
-IF NOT EXIST "java.exe" echo [+]Programas necesarios Java & timeout /T 5 >nul & goto 64
+REM IF NOT EXIST "C:\Program Files\Java\jre1.8.0_301\bin\java.exe" echo [+]Programas necesarios Java & timeout /T 5 >nul & goto 64
 
 :: si exite se pone la aplicacion
 IF EXIST C:\Juanelbuenocopiadelosarcivos\programas\MegaBasterd.jar (
