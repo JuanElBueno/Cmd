@@ -3,7 +3,7 @@
 color 9f
 REM Ruta general
 set Beta=Alfa
-set Version=V2.4.1
+set Version=V2.4.0.1
 set ruta=C:\Juanelbuenocopiadelosarcivos
 set programas=%ruta%\programas
 set rar=%programas%\rar
@@ -123,13 +123,13 @@ goto menu
 ) else (
 if $SYSTEM_os_arch==x86 (
 cd %ruta%
-powershell -command iwr 'https://web.archive.org/web/20211101121933if_/https://eternallybored.org/misc/wget/1.21.2/32/wget.exe' -OutFile 'wget.exe'
+powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.1/32/wget.exe' -OutFile 'wget.exe'
 echo.
 timeout /T 6 >nul
 goto menu
 ) else (
 cd %ruta%
-powershell -command iwr 'https://web.archive.org/web/20220218172657if_/https://eternallybored.org/misc/wget/1.21.2/64/wget.exe' -OutFile 'wget.exe' 
+powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.1/64/wget.exe' -OutFile 'wget.exe' 
 echo. 
 timeout /T 6 >nul 
 goto menu
@@ -527,6 +527,7 @@ REM IF NOT EXIST "C:\Program Files\Java\jre1.8.0_301\bin\java.exe" echo [+]Progr
 :: si exite se pone la aplicacion
 IF EXIST C:\Juanelbuenocopiadelosarcivos\programas\MegaBasterd.jar (
 start cmd /c java -jar MegaBasterd.jar
+goto 64
 ) else (
 :: si no exite se descarga
 powershell -command iwr 'https://github.com/tonikelope/megabasterd/releases/download/v7.50/MegaBasterd_7.50.jar' -OutFile 'MegaBasterd.jar' 
