@@ -3,7 +3,7 @@
 color 9f
 REM Ruta general
 set Beta=Alfa
-set Version=V2.3.6
+set Version=V2.4.0
 set ruta=C:\Juanelbuenocopiadelosarcivos
 set programas=%ruta%\programas
 set rar=%programas%\rar
@@ -179,7 +179,7 @@ REM 						Menu de inicio
 		if "%modo%"=="on" (
 		if "%var%"=="o" goto menu2
 		if "%var%"=="r" goto general
-		if "%var%"=="y" goto Combertidor_de_yt
+		REM if "%var%"=="y" goto Combertidor_de_yt
 		REM if "%var%"=="d" goto Istalador_de_paquetes
 		) else (
 		echo [+] No disponible modo Administracion de que a hecho la aplicacion %Titulo1%...
@@ -262,17 +262,16 @@ cls
 TASKKILL /F /IM explorer.exe & timeout /nobreak 10 & start explorer.exe
 goto menu
 
-:Istalador_de_paquetes
-:: si exite se pone en admin
-IF EXIST %programas%\Progamas.bat ( 
-echo [+]Progama Istalado Exitosamente & timeout /T 5 >nul
-goto menu
-) else (
-:: si no exite se descarga
-cd %programas%
-powershell -command iwr '' -OutFile '' 
-goto menu
-)
+REM :Istalador_de_paquetes
+REM IF EXIST %programas%\Progamas.bat ( 
+REM echo [+]Progama Istalado Exitosamente & timeout /T 5 >nul
+REM goto menu
+REM ) else (
+REM :: si no exite se descarga
+REM cd %programas%
+REM powershell -command iwr '' -OutFile '' 
+REM goto menu
+REM )
 
 :admintareas
 	cls
@@ -337,67 +336,67 @@ set /p descagar1=Que archivo quieres descagar:
 set /p nombre2=Nombre del achivo: 
 powershell -command iwr '%descagar1%' -OutFile '%nombre2%' & explorer %programas% & goto admintareas	
 
-:Combertidor_de_yt
-cls
-	echo ************************************************* 
-	echo *                     Menu                      *
-	echo *************************************************
-	echo * 1)  Descargar yt                              *
-	echo * 2)  Convertir a mp3 (Fase de pruebas)         *
-	echo * 3)  Salir al menu                             *
-	echo ************************************************* 
-		set /p var=Seleccione una opcion [1-3]: 
-		if "%var%"=="1" goto Descargaryt
-		if "%var%"=="2" goto mp3_combertidor
-		if "%var%"=="3" goto menu
+REM :Combertidor_de_yt
+REM cls
+	REM echo ************************************************* 
+	REM echo *                     Menu                      *
+	REM echo *************************************************
+	REM echo * 1)  Descargar yt                              *
+	REM echo * 2)  Convertir a mp3 (Fase de pruebas)         *
+	REM echo * 3)  Salir al menu                             *
+	REM echo ************************************************* 
+		REM set /p var=Seleccione una opcion [1-3]: 
+		REM if "%var%"=="1" goto Descargaryt
+		REM if "%var%"=="2" goto mp3_combertidor
+		REM if "%var%"=="3" goto menu
 		
-:error
-cls
-echo *************************************************
-echo.
-echo *        OPCION SELECCIONADA NO VALIDA!         *
-echo.
-echo *************************************************
-timeout /T 5 >nul
-goto Combertidor_de_yt
+REM :error
+REM cls
+REM echo *************************************************
+REM echo.
+REM echo *        OPCION SELECCIONADA NO VALIDA!         *
+REM echo.
+REM echo *************************************************
+REM timeout /T 5 >nul
+REM goto Combertidor_de_yt
 
-:Descargaryt
-IF EXIST %programas%\youtube-dl.exe (
-goto descagar_yt_programa
-) else (
-cd %programas%
-powershell -command iwr 'https://youtube-dl.org/downloads/latest/youtube-dl.exe' -OutFile 'youtube-dl.exe'
-title %Titulo% 
-goto descagar_yt_programa
-)
+REM :Descargaryt
+REM IF EXIST %programas%\youtube-dl.exe (
+REM goto descagar_yt_programa
+REM ) else (
+REM cd %programas%
+REM powershell -command iwr 'https://youtube-dl.org/downloads/latest/youtube-dl.exe' -OutFile 'youtube-dl.exe'
+REM title %Titulo% 
+REM goto descagar_yt_programa
+REM )
 
-:descagar_yt_programa
-cd %programas%
-set /p enlace=Enlace del yt y de todo:
-@echo on
-youtube-dl.exe %enlace%
-@echo off
-pause
-goto Combertidor_de_yt
+REM :descagar_yt_programa
+REM cd %programas%
+REM set /p enlace=Enlace del yt y de todo:
+REM @echo on
+REM youtube-dl.exe %enlace%
+REM @echo off
+REM pause
+REM goto Combertidor_de_yt
 
-:mp3_combertidor
-cd %programas%
-IF EXIST %programas%\ffmpeg.exe (
-goto mp3_combertidor_haciendo
-) else (
-%rutaw% https://github.com/JuanElBueno/Command-Cmd/raw/main/ffmpeg.exe 
-title %Titulo% 
-goto mp3_combertidor_haciendo
-)
-:mp3_combertidor_haciendo
-cd %programas%
-set /p ORIGEN=Origen del achivo:
-set /p DESTINO=Destino del achivo:
-@echo on
-ffmpeg.exe -i %ORIGEN% %DESTINO%
-@echo off
-pause
-goto Combertidor_de_yt
+REM :mp3_combertidor
+REM cd %programas%
+REM IF EXIST %programas%\ffmpeg.exe (
+REM goto mp3_combertidor_haciendo
+REM ) else (
+REM %rutaw% https://github.com/JuanElBueno/Command-Cmd/releases/download/publish/ffmpeg.exe
+REM title %Titulo% 
+REM goto mp3_combertidor_haciendo
+REM )
+REM :mp3_combertidor_haciendo
+REM cd %programas%
+REM set /p ORIGEN=Origen del achivo:
+REM set /p DESTINO=Destino del achivo:
+REM @echo on
+REM ffmpeg.exe -i %ORIGEN% %DESTINO%
+REM @echo off
+REM pause
+REM goto Combertidor_de_yt
 
 
 :: menu2 de programas de descagar
