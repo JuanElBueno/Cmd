@@ -2,8 +2,8 @@
 @shift
 color 9f
 REM Ruta general
-set Beta=Alfa
-set Version=V2.4.1.1
+set Beta=alpha
+set Version=V2.4.1.5
 set ruta=C:\Juanelbuenocopiadelosarcivos
 set programas=%ruta%\programas
 set rar=%programas%\rar
@@ -45,7 +45,7 @@ timeout /T 5 >nul
 REM Programas necesarios para iniciar
 
 IF EXIST %winrarexe% (
-echo [+]Progama Istalado Exitosa WinRAR & timeout /T 5 >nul
+echo [+]Progama Istalado exitosamente WinRAR & timeout /T 5 >nul
 goto admin
 ) else (
 echo [+]Programas Necesarios WinRAR & timeout /T 5 >nul
@@ -64,7 +64,7 @@ goto admin
 
 :admin
 IF EXIST %admin%\PowerRun_x64.exe (
-echo [+]Progama Istalado Exitosa PowerRun & timeout /T 5 >nul
+echo [+]Progama Istalado exitosamente PowerRun & timeout /T 5 >nul
 goto wget1
 ) else (
 echo [+]Programas Necesarios PowerRun & timeout /T 5 >nul
@@ -93,7 +93,7 @@ set wgetvof=n
 
 if "%wgetvof%"=="y" (
 IF EXIST C:\Windows\System32\wget.exe ( 
-echo [+]Progama Istalado Exitosa Wget [administracion]
+echo [+]Progama Istalado exitosamente Wget [administracion]
 timeout /T 5 >nul 
 goto menu
 ) else (
@@ -104,7 +104,7 @@ goto wgetinstalar
  
 if "%wgetvof%"=="n" (
 IF EXIST %Ruta%\wget.exe ( 
-echo [+]Progama Istalado Exitosa Wget [No administracion] 
+echo [+]Progama Istalado exitosamente Wget [No administracion] 
 timeout /T 5 >nul 
 goto menu
 ) else (
@@ -117,7 +117,7 @@ goto wgetsinad
 set rutaw="%ruta%\wget.exe"
 
 IF EXIST %Ruta%\wget.exe ( 
-echo [+]Progama Istalado Exitosa Wget [No administracion]
+echo [+]Progama Istalado exitosamente Wget [No administracion]
 timeout /T 5 >nul
 goto menu
 ) else (
@@ -525,7 +525,7 @@ cd %programas%
 REM IF NOT EXIST "C:\Program Files\Java\jre1.8.0_301\bin\java.exe" echo [+]Programas necesarios Java & timeout /T 5 >nul & goto 64
 
 :: si exite se pone la aplicacion
-IF EXIST C:\Juanelbuenocopiadelosarcivos\programas\MegaBasterd.jar (
+IF EXIST %programas%\MegaBasterd.jar (
 start cmd /c java -jar MegaBasterd.jar
 goto 64
 ) else (
@@ -545,7 +545,7 @@ goto 64
 ) else (
 :: si no exite se descarga
 cd %rar% 
-powershell -command iwr 'https://install.speedtest.net/app/cli/ookla-speedtest-1.0.0-win64.zip' -OutFile 'speedtest-win64.zip'
+powershell -command iwr 'https://install.speedtest.net/app/cli/ookla-speedtest-1.1.1-win64.zip' -OutFile 'speedtest-win64.zip'
 goto speed
 )
 :speed
@@ -629,7 +629,7 @@ goto 64
 :programas7
 IF NOT EXIST "%programas%\uget" md "%programas%\uget"
 IF EXIST %programas%\uget\bin\uget.exe (
-pause
+cd %programas%\uget\bin\
 start uget.exe
 goto 64
 ) else (
