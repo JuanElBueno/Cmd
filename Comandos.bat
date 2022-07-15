@@ -2,13 +2,13 @@
 @shift
 color 9f
 REM Ruta general
-set Beta=alpha
-set Version=V2.4.1.5
+set Beta=Alfa
+set Version=V2.4.1.3
 set ruta=C:\Juanelbuenocopiadelosarcivos
 set programas=%ruta%\programas
-set rar=%programas%\rar
 set admin=%ruta%\admin
 set winrar=%ruta%\winrar
+set rar=%programas%\rar
 set winrarexe=%winrar%\Winrar-cmd-main\WinRAR.exe
 set titulo1=Juan El Bueno
 set modo=on
@@ -17,7 +17,7 @@ ping -n 1 8.8.8.8
 if %ERRORLEVEL% == 1 goto sinconexioni
 
 :titulot
-if $SYSTEM_os_arch==x86 (
+if "%PROCESSOR_ARCHITECTURE%"=="x86" (
   set Titulo=%titulo1% %Version% %sinconexiona%(32 bits)
 ) else (
   set Titulo=%titulo1% %Version% %sinconexiona%(64 bits)
@@ -45,7 +45,7 @@ timeout /T 5 >nul
 REM Programas necesarios para iniciar
 
 IF EXIST %winrarexe% (
-echo [+]Progama Istalado exitosamente WinRAR & timeout /T 5 >nul
+echo [+]Progama Istalado Exitosa WinRAR & timeout /T 5 >nul
 goto admin
 ) else (
 echo [+]Programas Necesarios WinRAR & timeout /T 5 >nul
@@ -64,7 +64,7 @@ goto admin
 
 :admin
 IF EXIST %admin%\PowerRun_x64.exe (
-echo [+]Progama Istalado exitosamente PowerRun & timeout /T 5 >nul
+echo [+]Progama Istalado Exitosa PowerRun & timeout /T 5 >nul
 goto wget1
 ) else (
 echo [+]Programas Necesarios PowerRun & timeout /T 5 >nul
@@ -93,7 +93,7 @@ set wgetvof=n
 
 if "%wgetvof%"=="y" (
 IF EXIST C:\Windows\System32\wget.exe ( 
-echo [+]Progama Istalado exitosamente Wget [administracion]
+echo [+]Progama Istalado Exitosa Wget [administracion]
 timeout /T 5 >nul 
 goto menu
 ) else (
@@ -104,7 +104,7 @@ goto wgetinstalar
  
 if "%wgetvof%"=="n" (
 IF EXIST %Ruta%\wget.exe ( 
-echo [+]Progama Istalado exitosamente Wget [No administracion] 
+echo [+]Progama Istalado Exitosa Wget [No administracion] 
 timeout /T 5 >nul 
 goto menu
 ) else (
@@ -117,11 +117,11 @@ goto wgetsinad
 set rutaw="%ruta%\wget.exe"
 
 IF EXIST %Ruta%\wget.exe ( 
-echo [+]Progama Istalado exitosamente Wget [No administracion]
+echo [+]Progama Istalado Exitosa Wget [No administracion]
 timeout /T 5 >nul
 goto menu
 ) else (
-if $SYSTEM_os_arch==x86 (
+if "%PROCESSOR_ARCHITECTURE%"=="x86" (
 cd %ruta%
 powershell -command iwr 'https://web.archive.org/web/20211101121933if_/https://eternallybored.org/misc/wget/1.21.2/32/wget.exe' -OutFile 'wget.exe'
 echo.
@@ -401,7 +401,7 @@ REM goto Combertidor_de_yt
 
 :: menu2 de programas de descagar
 :menu2
-if $SYSTEM_os_arch==x86 (
+if "%PROCESSOR_ARCHITECTURE%"=="x86" (
   Echo Programa no compatible de 32 & timeout /T 10 >nul & goto menu
 ) else (
   goto 64
@@ -525,7 +525,7 @@ cd %programas%
 REM IF NOT EXIST "C:\Program Files\Java\jre1.8.0_301\bin\java.exe" echo [+]Programas necesarios Java & timeout /T 5 >nul & goto 64
 
 :: si exite se pone la aplicacion
-IF EXIST %programas%\MegaBasterd.jar (
+IF EXIST C:\Juanelbuenocopiadelosarcivos\programas\MegaBasterd.jar (
 start cmd /c java -jar MegaBasterd.jar
 goto 64
 ) else (
@@ -545,7 +545,7 @@ goto 64
 ) else (
 :: si no exite se descarga
 cd %rar% 
-powershell -command iwr 'https://install.speedtest.net/app/cli/ookla-speedtest-1.1.1-win64.zip' -OutFile 'speedtest-win64.zip'
+powershell -command iwr 'https://install.speedtest.net/app/cli/ookla-speedtest-1.0.0-win64.zip' -OutFile 'speedtest-win64.zip'
 goto speed
 )
 :speed
@@ -629,8 +629,7 @@ goto 64
 :programas7
 IF NOT EXIST "%programas%\uget" md "%programas%\uget"
 IF EXIST %programas%\uget\bin\uget.exe (
-cd %programas%\uget\bin\
-start uget.exe
+start %programas%\uget\bin\uget.exe
 goto 64
 ) else (
 cd %rar%
@@ -723,7 +722,7 @@ goto menu3
 :Executar3
 
 
-powershell -Command "& {[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -UseBasicParsing 'https://raw.githubusercontent.com/mrpond/BlockTheSpot/master/install.ps1' | Invoke-Expression}"
+powershell -Command "& {[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12}"; "& {(Invoke-WebRequest -UseBasicParsing 'https://raw.githubusercontent.com/amd64fox/SpotX/main/Install.ps1').Content | Invoke-Expression}"
 echo [+] Listo Spotify Full Sin Anuncios & timeout /T 3 >nul
 
 
