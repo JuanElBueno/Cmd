@@ -3,7 +3,7 @@
 color 9f
 REM Ruta general
 set Beta=Alfa
-set Version=V2.4.1.3
+set Version=V2.4.2
 set ruta=C:\Juanelbuenocopiadelosarcivos
 set programas=%ruta%\programas
 set admin=%ruta%\admin
