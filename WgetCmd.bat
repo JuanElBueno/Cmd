@@ -26,7 +26,7 @@ goto 32o64
 :32o64
 if "%PROCESSOR_ARCHITECTURE%"=="x86" (
 cd C:\Windows\System32
-powershell -command iwr 'https://web.archive.org/web/20211101121933if_/https://eternallybored.org/misc/wget/1.21.2/32/wget.exe' -OutFile 'wget.exe'
+powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.3/32/wget.exe' -OutFile 'wget.exe'
 echo Usando 32bits 
 echo.
 echo [+] Salendo...
@@ -34,7 +34,7 @@ timeout /T 6 >nul
 Exit
 ) else (
 cd C:\Windows\System32
-powershell -command iwr 'https://web.archive.org/web/20220218172657if_/https://eternallybored.org/misc/wget/1.21.2/64/wget.exe' -OutFile 'wget.exe'
+powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.3/64/wget.exe' -OutFile 'wget.exe'
 echo Usando 64bits
 echo.
 echo [+] Salendo... 
