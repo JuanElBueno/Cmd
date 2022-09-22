@@ -1,9 +1,27 @@
 @echo off
 @shift
-color 9f
+chcp 65001
+REM Colores
+set fore_black=[30m
+set fore_dred=[31m
+set fore_dgreen=[32m
+set fore_dyellow=[33m
+set fore_dblue=[34m
+set fore_dmagenta=[35m
+set fore_dcyan=[36m
+set fore_dwhite=[37m
+ 
+set fore_bblack=[90m
+set fore_bred=[91m
+set fore_bgreen=[92m
+set fore_byellow=[93m
+set fore_bblue=[94m
+set fore_bmagenta=[95m
+set fore_bcyan=[96m
+set fore_bwhite=[97m
+
 REM Ruta general
 set Beta=Alfa
-set Version=V2.4.2.2
 set ruta=C:\Juanelbuenocopiadelosarcivos
 set programas=%ruta%\programas
 set admin=%ruta%\admin
@@ -12,15 +30,59 @@ set rar=%programas%\rar
 set winrarexe=%winrar%\Winrar-cmd-main\WinRAR.exe
 set titulo1=Juan El Bueno
 set modo=on
+set wifi=
 
+set ERRORLEVEL=
+echo Comprobando conectividad ...
 ping -n 1 8.8.8.8
-if %ERRORLEVEL% == 1 goto sinconexioni
+
+if %ERRORLEVEL%==0 ( 
+set wifi=true
+goto Update
+) else ( 
+set wifi=false
+goto sinconexioni
+) 
+
+:Update
+if %wifi% == "true" (
+set Version=V2.10
+set Versiondos=%Version%
+if exist "%temp%\Updater.bat" DEL /S /Q /F "%temp%\Updater.bat" >nul 2>&1
+curl -g -L -# -o "%temp%\Updater.bat" "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Update" >nul 2>&1
+call "%temp%\Updater.bat"
+IF "%Version%" gtr "%Versiondos%" (
+	cls
+	echo.
+	echo  --------------------------------------------------------------
+	echo                           Update found
+	echo  --------------------------------------------------------------
+	echo.
+	echo                    Your current version: %Version%
+	echo.
+	echo                          New version: %Versiondos%
+	echo.
+	echo.
+	echo.
+	echo      [Y] Yes, Update
+	echo      [N] No
+	echo.
+	choice /c:YN /n /m "%DEL%                                >:"
+	set choice=!errorlevel!
+	if !choice! equ 1 (
+		curl -L -o %0 "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Comandos.bat" >nul 2>&1
+		call %0
+		exit /b
+	)
+)
+)
+
 
 :titulot
 if "%PROCESSOR_ARCHITECTURE%"=="x86" (
-  set Titulo=%titulo1% %Version% %sinconexiona%(32 bits)
+  set Titulo=%titulo1% %Version% %sinconexiona% (32 bits)
 ) else (
-  set Titulo=%titulo1% %Version% %sinconexiona%(64 bits)
+  set Titulo=%titulo1% %Version% %sinconexiona% (64 bits)
 )
 
 REM Modos de iniciar
@@ -33,13 +95,13 @@ IF NOT EXIST "%rar%" md "%rar%"
 IF NOT EXIST "%admin%" md "%admin%"
 IF NOT EXIST "%winrar%" md "%winrar%"
 cd %ruta%
-echo **************************************************
+echo ==================================================
 echo.
 echo                  Para Win 10 Y 11 
 echo.
 echo        Version %Beta% De la Aplicacion %Version%  
 echo.
-echo **************************************************
+echo ==================================================
 timeout /T 5 >nul
 
 REM Programas necesarios para iniciar
@@ -47,10 +109,13 @@ REM Programas necesarios para iniciar
 IF EXIST %winrarexe% (
 echo [+]Progama Istalado Exitosa WinRAR & timeout /T 5 >nul
 goto admin
-) else (
+) else if "%wifi%"=="true" (
 echo [+]Programas Necesarios WinRAR & timeout /T 5 >nul
 goto desrar
-) 
+) else (
+echo [+]Estas sin conexion de internet & timeout /T 5 >nul
+goto admin
+)
 
 :desrar
 IF EXIST %winrarexe% (
@@ -66,10 +131,13 @@ goto admin
 IF EXIST %admin%\PowerRun_x64.exe (
 echo [+]Progama Istalado Exitosa PowerRun & timeout /T 5 >nul
 goto wget1
-) else (
+) else if "%wifi%"=="true" (
 echo [+]Programas Necesarios PowerRun & timeout /T 5 >nul
 goto admindes
-) 
+) else (
+echo [+]Estas sin conexion de internet & timeout /T 5 >nul
+goto wget1
+)
 
 :admindes
 :: si exite se pone en admin
@@ -79,7 +147,7 @@ goto wget1
 :: si no exite se descarga
 cd %admin%
 powershell -command iwr 'https://github.com/JuanElBueno/Command-Cmd/raw/main/PowerRun_x64.exe' -OutFile 'PowerRun_x64.exe' 
-goto wget1
+goto wget1f
 )
 
 
@@ -93,24 +161,26 @@ set wgetvof=n
 
 if "%wgetvof%"=="y" (
 IF EXIST C:\Windows\System32\wget.exe ( 
-echo [+]Progama Istalado Exitosa Wget [administracion]
-timeout /T 5 >nul 
+echo [+]Progama Istalado Exitosa Wget [administracion] & timeout /T 5 >nul 
 goto menu
-) else (
-echo [+]Programas Necesarios Wget [administracion]
-timeout /T 5 >nul
+) else if "%wifi%"=="true" (
+echo [+]Programas Necesarios Wget [administracion] & timeout /T 5 >nul
 goto wgetinstalar
+) else (
+echo [+]Estas sin conexion de internet & timeout /T 5 >nul
+goto menu
 ))
  
 if "%wgetvof%"=="n" (
 IF EXIST %Ruta%\wget.exe ( 
-echo [+]Progama Istalado Exitosa Wget [No administracion] 
-timeout /T 5 >nul 
+echo [+]Progama Istalado Exitosa Wget [No administracion] & timeout /T 5 >nul 
 goto menu
-) else (
-echo [+]Programas Necesarios Wget [No administracion] 
-timeout /T 5 >nul
+) else if "%wifi%"=="true" (
+echo [+]Programas Necesarios Wget [No administracion] & timeout /T 5 >nul
 goto wgetsinad
+) else (
+echo [+]Estas sin conexion de internet & timeout /T 5 >nul
+goto menu
 ))
 
 :wgetsinad
@@ -152,9 +222,9 @@ goto menu
 REM 						Menu de inicio
 :menu                                                    
 	cls
-	echo **************************************************
-	echo *                      MENU                      *
-	echo **************************************************
+	echo ==================================================
+	echo ║                      MENU                      ║
+	echo ==================================================
 	echo * 1) Eliminar achivos malos                      *
 	echo * 2) Ip                                          *
 	echo * 3) Programas que no responde                   *
@@ -164,7 +234,7 @@ REM 						Menu de inicio
 	echo * 7) Explore no funciona nada                    *
 	echo * 8) Administracion                              *
 	echo * 9) Salir                                       *
-	echo **************************************************
+	echo ==================================================
 		set /p var=Seleccione una opcion [1-9]: 
 		if "%var%"=="1" goto deltemp
 		if "%var%"=="2" goto ip
@@ -174,7 +244,7 @@ REM 						Menu de inicio
 		if "%var%"=="6" goto informaciondelwifi
 		if "%var%"=="7" goto norespondeexplore
 		if "%var%"=="8" goto Administradorcmd
-		if "%var%"=="9" echo [+] Salendo... & timeout /T 2 >nul & Exit
+		if "%var%"=="9" echo [+] Salendo..." & timeout /T 2 >nul & Exit 
 		REM modo de ingeneria
 		if "%modo%"=="on" (
 		if "%var%"=="o" goto menu2
@@ -190,11 +260,11 @@ REM 						Menu de inicio
 :: Error de comandos
 :error
 cls
-echo **************************************************
+echo ==================================================
 echo.
-echo *        OPCION SELECCIONADA NO VALIDA!          *
+echo =        OPCION SELECCIONADA NO VALIDA!          =
 echo.
-echo **************************************************
+echo ==================================================
 timeout /T 5 >nul
 goto menu
 
@@ -207,9 +277,9 @@ goto menu
 :informaciondelwifi
 :: nombre de wifi y la contraseña
 mode con: cols=65 lines=15
-echo ***************
+echo ===============
 echo Nombre del wifi
-echo ***************
+echo ===============
 netsh wlan show profile
 set /p nombredewifi=Nombre del wifi:
 netsh wlan show profile name=%nombredewifi% key=clear 
@@ -250,7 +320,6 @@ mode con: cols=50 lines=18
 title %Titulo%
 goto menu
 
-
 :: No responde los porgramas
 :noresponde
 cls
@@ -275,21 +344,21 @@ REM )
 
 :admintareas
 	cls
-	echo ************************************************* 
-	echo *                      MENU                     *
-	echo *************************************************
-	echo * 1) Administrador de tareas                    *
-	echo * 2) Calculadora                                *
-	echo * 3) Teclado en pantalla                        *
-	echo * 4) Panel de control                           *
-	echo * 5) Atualizar el windows                       *
-	echo * 6) Explorer                                   *
-	echo * 7) Recorte de pantalla                        *
-	echo * 8) Descargar_Achivos_powershell               *
-	echo * 9) Descargar_Achivos                          *
-	echo * 10) Administracion de equipos                 *
-	echo * s) Salir del menu volver a anterior.          *
-	echo *************************************************
+	echo ================================================= 
+	echo ║                      MENU                     ║
+	echo =================================================
+	echo = 1) Administrador de tareas                    =
+	echo = 2) Calculadora                                =
+	echo = 3) Teclado en pantalla                        =
+	echo = 4) Panel de control                           =
+	echo = 5) Atualizar el windows                       =
+	echo = 6) Explorer                                   =
+	echo = 7) Recorte de pantalla                        =
+	echo = 8) Descargar_Achivos_powershell               =
+	echo = 9) Descargar_Achivos                          =
+	echo = 10) Administracion de equipos                 =
+	echo = s) Salir del menu volver a anterior.          =
+	echo =================================================
 		set /p var=Seleccione una opcion [1-8]: 
 		if "%var%"=="1" call "taskmgr" & goto admintareas
 		if "%var%"=="2" call "calc" & goto admintareas
@@ -306,11 +375,11 @@ REM )
 		
 :error
 cls
-echo *************************************************
+echo =================================================
 echo.
-echo *        OPCION SELECCIONADA NO VALIDA!         *
+echo =        OPCION SELECCIONADA NO VALIDA!         =
 echo.
-echo *************************************************
+echo =================================================
 timeout /T 5 >nul
 goto admintareas
 
@@ -338,13 +407,13 @@ powershell -command iwr '%descagar1%' -OutFile '%nombre2%' & explorer %programas
 
 REM :Combertidor_de_yt
 REM cls
-	REM echo ************************************************* 
-	REM echo *                     Menu                      *
-	REM echo *************************************************
-	REM echo * 1)  Descargar yt                              *
-	REM echo * 2)  Convertir a mp3 (Fase de pruebas)         *
-	REM echo * 3)  Salir al menu                             *
-	REM echo ************************************************* 
+	REM echo ================================================= 
+	REM echo =                     Menu                      =
+	REM echo =================================================
+	REM echo = 1)  Descargar yt                              =
+	REM echo = 2)  Convertir a mp3 (Fase de pruebas)         =
+	REM echo = 3)  Salir al menu                             =
+	REM echo ================================================= 
 		REM set /p var=Seleccione una opcion [1-3]: 
 		REM if "%var%"=="1" goto Descargaryt
 		REM if "%var%"=="2" goto mp3_combertidor
@@ -352,11 +421,11 @@ REM cls
 		
 REM :error
 REM cls
-REM echo *************************************************
+REM echo =================================================
 REM echo.
-REM echo *        OPCION SELECCIONADA NO VALIDA!         *
+REM echo =        OPCION SELECCIONADA NO VALIDA!         =
 REM echo.
-REM echo *************************************************
+REM echo =================================================
 REM timeout /T 5 >nul
 REM goto Combertidor_de_yt
 
@@ -402,7 +471,7 @@ REM goto Combertidor_de_yt
 :: menu2 de programas de descagar
 :menu2
 if "%PROCESSOR_ARCHITECTURE%"=="x86" (
-  Echo Programa no compatible de 32 & timeout /T 10 >nul & goto menu
+  echo Programa no compatible de 32 & timeout /T 10 >nul & goto menu
 ) else (
   goto 64
 )
@@ -410,16 +479,16 @@ if "%PROCESSOR_ARCHITECTURE%"=="x86" (
 REM 32
 REM :32
 	REM cls
-	REM echo *************************************************
-	REM echo *           Progama desatualizado               *
-	REM echo *************************************************
-	REM echo *************************************************
-	REM echo *                      MENU                     *
-	REM echo *************************************************
-	REM echo * 1) programas procexp64                         *
-	REM echo * 2) programas MegaBasterd                       *
-	REM echo * 3) Salir del menu volver a anterior.          *
-	REM echo *************************************************
+	REM echo =================================================
+	REM echo =           Progama desatualizado               =
+	REM echo =================================================
+	REM echo =================================================
+	REM echo =                      MENU                     =
+	REM echo =================================================
+	REM echo = 1) programas procexp64                         =
+	REM echo = 2) programas MegaBasterd                       =
+	REM echo = 3) Salir del menu volver a anterior.          =
+	REM echo =================================================
 		REM set /p var=Seleccione una opcion [1-3]: 
 		REM if "%var%"=="1" goto programasm3
 		REM if "%var%"=="2" goto programas1m3
@@ -428,11 +497,11 @@ REM :32
 REM :: error de comandos
 REM :error
 REM cls
-REM echo *************************************************
+REM echo =================================================
 REM echo.
-REM echo *        OPCION SELECCIONADA NO VALIDA!         *
+REM echo =        OPCION SELECCIONADA NO VALIDA!         =
 REM echo.
-REM echo *************************************************
+REM echo =================================================
 REM timeout /T 5 >nul
 REM goto 32
 
@@ -462,20 +531,20 @@ REM goto m3
 :64
 
 	cls
-	echo *************************************************
-	echo *                      MENU                     *
-	echo *************************************************
-	echo * 1) Programas procexp64                       *
-	echo * 2) Programas MegaBasterd                     *
-	echo * 3) Programas Test de velocidad               *
-	echo * 4) Programas Autoruns64                      *
-	echo * 5) Programas Task Manager                    *
-	echo * 6) Programas Administrador de archivo        *
-	echo * 7) Programas Buscador achivos                *
-	echo * 8) Programas Descargar_Achivos               *
-	echo * 9) Salir del menu volver a anterior          *
-	echo * o) Continuacion del programa                 *	
-	echo *************************************************
+	echo =================================================
+	echo =                      MENU                     =
+	echo =================================================
+	echo = 1) Programas procexp64                       =
+	echo = 2) Programas MegaBasterd                     =
+	echo = 3) Programas Test de velocidad               =
+	echo = 4) Programas Autoruns64                      =
+	echo = 5) Programas Task Manager                    =
+	echo = 6) Programas Administrador de archivo        =
+	echo = 7) Programas Buscador achivos                =
+	echo = 8) Programas Descargar_Achivos               =
+	echo = 9) Salir del menu volver a anterior          =
+	echo = o) Continuacion del programa                 =	
+	echo =================================================
 		set /p var=Seleccione una opcion [1-9]: 
 		:: programas de equipo de wifi
 		if "%var%"=="1" goto programas
@@ -493,11 +562,11 @@ REM goto m3
 :: error de comandos
 :error
 cls
-echo *************************************************
+echo =================================================
 echo.
-echo *        OPCION SELECCIONADA NO VALIDA!         *
+echo =        OPCION SELECCIONADA NO VALIDA!         =
 echo.
-echo *************************************************
+echo =================================================
 timeout /T 5 >nul
 goto 64
 
@@ -646,19 +715,19 @@ goto 64
 
 :menu3
 	cls
-	echo *************************************************
-	echo *                      MENU                     *
-	echo *************************************************
-	echo * 1) Programas Examen de seguridad de Microsoft *
-	echo * 2) Programas Optimizar el windows 100%        *
-	echo * 3) Programas Spotify 100%                     *
-	::echo * 4) Programas*
-	::echo * 5) Programas*
-	::echo * 6) Programas*
-	::echo * 7) Programas*
-	::echo * 8) Programas*
-	echo * 4) Salir del menu volver a anterior           *
-	echo *************************************************
+	echo =================================================
+	echo =                      MENU                     =
+	echo =================================================
+	echo = 1) Programas Examen de seguridad de Microsoft =
+	echo = 2) Programas Optimizar el windows 100%        =
+	echo = 3) Programas Spotify 100%                     =
+	::echo = 4) Programas=
+	::echo = 5) Programas=
+	::echo = 6) Programas=
+	::echo = 7) Programas=
+	::echo = 8) Programas=
+	echo = 4) Salir del menu volver a anterior           =
+	echo =================================================
 		set /p var=Seleccione una opcion [1-4]: 
 		:: programas de equipo de wifi
 		if "%var%"=="1" goto Executar1
@@ -675,11 +744,11 @@ goto 64
 :: error de comandos
 :error
 cls
-echo *************************************************
+echo =================================================
 echo.
-echo *        OPCION SELECCIONADA NO VALIDA!         *
+echo =        OPCION SELECCIONADA NO VALIDA!         =
 echo.
-echo *************************************************
+echo =================================================
 timeout /T 5 >nul
 goto menu3
 
@@ -720,8 +789,6 @@ pause
 goto menu3
 
 :Executar3
-
-
 powershell -Command "& {[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12}"; "& {(Invoke-WebRequest -UseBasicParsing 'https://raw.githubusercontent.com/amd64fox/SpotX/main/Install.ps1').Content | Invoke-Expression}"
 echo [+] Listo Spotify Full Sin Anuncios & timeout /T 3 >nul
 
@@ -732,11 +799,11 @@ goto menu3
 set sinconexiona=No tienes internet
 mode con: cols=52 lines=18 
 cls
-echo *************************************************
+echo =================================================
 echo.
-echo * No tienes internet vuelve intentalo mas tarde *
+echo = %Red%No tienes internet vuelve intentalo mas tarde%Yellow% =
 echo.
-echo *************************************************
+echo =================================================
 timeout /T 5 >nul
 goto titulot
 
