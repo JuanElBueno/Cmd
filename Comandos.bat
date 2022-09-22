@@ -45,7 +45,6 @@ goto sinconexioni
 ) 
 
 :Update
-if %wifi% == "true" (
 set Version=V2.10
 set Versiondos=%Version%
 if exist "%temp%\Updater.bat" DEL /S /Q /F "%temp%\Updater.bat" >nul 2>&1
@@ -75,8 +74,6 @@ IF "%Version%" gtr "%Versiondos%" (
 		exit /b
 	)
 )
-)
-
 
 :titulot
 if "%PROCESSOR_ARCHITECTURE%"=="x86" (
