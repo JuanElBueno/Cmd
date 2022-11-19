@@ -1,6 +1,6 @@
 @echo off
 @shift
-chcp 65001
+REM chcp 65001
 REM Colores
 set fore_black=[30m
 set fore_dred=[31m
@@ -144,7 +144,7 @@ goto wget1
 :: si no exite se descarga
 cd %admin%
 powershell -command iwr 'https://github.com/JuanElBueno/Command-Cmd/raw/main/PowerRun_x64.exe' -OutFile 'PowerRun_x64.exe' 
-goto wget1f
+goto wget1
 )
 
 
