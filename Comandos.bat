@@ -45,7 +45,7 @@ goto sinconexioni
 ) 
 
 :Update
-set Version=V2.12
+set Version=V2.11
 set Versiondos=%Version%
 if exist "%temp%\Updater.bat" DEL /S /Q /F "%temp%\Updater.bat" >nul 2>&1
 curl -g -L -# -o "%temp%\Updater.bat" "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Update" >nul 2>&1
@@ -57,9 +57,9 @@ IF "%Version%" gtr "%Versiondos%" (
 	echo                           Update found
 	echo  --------------------------------------------------------------
 	echo.
-	echo                    Your current version: %Version%
+	echo                    Your current version: %Versiondos%
 	echo.
-	echo                          New version: %Versiondos%
+	echo                          New version: %Version%
 	echo.
 	echo.
 	echo.
