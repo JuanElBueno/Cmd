@@ -45,7 +45,7 @@ goto sinconexioni
 ) 
 
 :Update
-set Version=V2.13.2
+set Version=V2.13.3
 set Versiondos=%Version%
 if exist "%temp%\Updater.bat" DEL /S /Q /F "%temp%\Updater.bat" >nul 2>&1
 curl -g -L -# -o "%temp%\Updater.bat" "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Update" >nul 2>&1
@@ -67,14 +67,17 @@ IF "%Version%" gtr "%Versiondos%" (
 	echo      [N] No
 	echo.
 	choice /c:YN /n /m "%DEL%                                >:"
-	set choice=!errorlevel!
-	if !choice! equ 1 (
-		curl -L -o %0 "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Comandos.bat" >nul 2>&1
-		call %0
-		exit /b
-	)
-)
+IF ERRORLEVEL ==1 GOTO Y
+IF ERRORLEVEL ==2 GOTO N
 
+:Y
+curl -L -o %0 "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Comandos.bat" >nul 2>&1
+call %0
+exit /b
+
+:N
+goto titulo1
+	
 :titulot
 if "%PROCESSOR_ARCHITECTURE%"=="x86" (
   set Titulo=%titulo1% %Version% %sinconexiona% (32 bits)
