@@ -45,7 +45,7 @@ goto sinconexioni
 ) 
 
 :Update
-set Version=V2.13.4
+set Version=V2.13.2
 set Versiondos=%Version%
 if exist "%temp%\Updater.bat" DEL /S /Q /F "%temp%\Updater.bat" >nul 2>&1
 curl -g -L -# -o "%temp%\Updater.bat" "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Update" >nul 2>&1
@@ -67,15 +67,15 @@ IF "%Version%" gtr "%Versiondos%" (
 	echo      [N] No
 	echo.
 	choice /c:YN /n /m "%DEL%                                >:"
-IF ERRORLEVEL ==Y GOTO Y
-IF ERRORLEVEL ==N GOTO N
+IF ERRORLEVEL ==Y GOTO 1
+IF ERRORLEVEL ==N GOTO 2
 
-:Y
+:1
 curl -L -o %0 "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Comandos.bat" >nul 2>&1
 call %0
 exit /b
 
-:N
+:2
 goto titulo1
 	
 :titulot
