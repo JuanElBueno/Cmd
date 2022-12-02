@@ -45,7 +45,7 @@ goto sinconexioni
 ) 
 
 :Update
-set version=2.11
+set version=2.13.6
 set versiondos=%version%
 if exist "%temp%\Updater.bat" DEL /S /Q /F "%temp%\Updater.bat" >nul 2>&1
 "%SystemRoot%\System32\curl.exe" -g -L -# -o "%temp%\Updater.bat" "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Update" >nul 2>&1
