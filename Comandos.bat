@@ -1,5 +1,7 @@
 @echo off
 @shift
+Setlocal EnableDelayedExpansion
+
 REM chcp 65001
 REM Colores
 set fore_black=[30m
@@ -32,54 +34,53 @@ set titulo1=Juan El Bueno
 set modo=on
 set wifi=
 
-set ERRORLEVEL=
 echo Comprobando conectividad ...
 ping -n 1 8.8.8.8
 
 if %ERRORLEVEL%==0 ( 
 set wifi=true
-goto Update
+goto CheckForUpdates
 ) else ( 
 set wifi=false
 goto sinconexioni
 ) 
 
-:Update
-set version=2.13.6
-set versiondos=%version%
+:CheckForUpdates
+set Version=2.13.9
+set Versiontwo=%Version%
 if exist "%temp%\Updater.bat" DEL /S /Q /F "%temp%\Updater.bat" >nul 2>&1
 "%SystemRoot%\System32\curl.exe" -g -L -# -o "%temp%\Updater.bat" "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Update" >nul 2>&1
 call "%temp%\Updater.bat"
-if "%version%" gtr "%versiondos%" (
+if "%Version%" gtr "%Versiontwo%" (
 	cls
 	echo.
 	echo  --------------------------------------------------------------
 	echo                           Update found
 	echo  --------------------------------------------------------------
 	echo.
-	echo                    Your current version: %versiondos%
+	echo                    Your current version: %Versiontwo%
 	echo.
-	echo                          New version: %versiondos%
+	echo                          New version: %Version%
 	echo.
 	echo.
 	echo.
 	echo      [Y] Yes, Update
 	echo      [N] No
 	echo.
-	choice.exe /c:YN /n /m "%DEL%                                >:"
-	if errorlevel == 1 (
-		"%SystemRoot%\System32\curl.exe" -L -o %0 "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Comandos.bat" >nul 2>&1
-		call %0
+	"%SystemRoot%\System32\choice.exe" /c:YN /n /m "%DEL%                                >:"
+	set "choice=!errorlevel!"
+	if !choice! == 1 (
+		"%SystemRoot%\System32\curl.exe" -L -o %USERPROFILE%\Desktop\Comandos.bat "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Comandos.bat" >nul 2>&1
+		call %USERPROFILE%\Desktop\Comandos.bat
 		exit /b
 	)
 )
 
-
 :titulot
 if "%PROCESSOR_ARCHITECTURE%"=="x86" (
-  set Titulo=%titulo1% %Versiondos% %sinconexiona% (32 bits)
+  set Titulo=%titulo1% %Versiontwo% %sinconexiona% (32 bits)
 ) else (
-  set Titulo=%titulo1% %Versiondos% %sinconexiona% (64 bits)
+  set Titulo=%titulo1% %Versiontwo% %sinconexiona% (64 bits)
 )
 
 REM Modos de iniciar
@@ -96,7 +97,7 @@ echo ==================================================
 echo.
 echo                  Para Win 10 Y 11 
 echo.
-echo        Version %Beta% De la Aplicacion %Version%  
+echo        Version %Beta% De la Aplicacion %Versiontwo%  
 echo.
 echo ==================================================
 timeout /T 5 >nul
