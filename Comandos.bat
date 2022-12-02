@@ -44,7 +44,7 @@ set wifi=false
 goto sinconexioni
 ) 
 
-:CheckForUpdates
+:Update
 set version=2.11
 set versiondos=%version%
 if exist "%temp%\Updater.bat" DEL /S /Q /F "%temp%\Updater.bat" >nul 2>&1
