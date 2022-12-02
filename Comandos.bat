@@ -44,45 +44,42 @@ set wifi=false
 goto sinconexioni
 ) 
 
-:Update
-set Version=V2.13.6
-set Versiondos=%Version%
+:CheckForUpdates
+set version=2.11
+set versiondos=%version%
 if exist "%temp%\Updater.bat" DEL /S /Q /F "%temp%\Updater.bat" >nul 2>&1
-curl -g -L -# -o "%temp%\Updater.bat" "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Update" >nul 2>&1
+"%SystemRoot%\System32\curl.exe" -g -L -# -o "%temp%\Updater.bat" "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Update" >nul 2>&1
 call "%temp%\Updater.bat"
-IF "%Version%" gtr "%Versiondos%" (
+if "%version%" gtr "%versiondos%" (
 	cls
 	echo.
 	echo  --------------------------------------------------------------
 	echo                           Update found
 	echo  --------------------------------------------------------------
 	echo.
-	echo                    Your current version: %Versiondos%
+	echo                    Your current version: %versiondos%
 	echo.
-	echo                          New version: %Version%
+	echo                          New version: %versiondos%
 	echo.
 	echo.
 	echo.
 	echo      [Y] Yes, Update
 	echo      [N] No
 	echo.
-	choice /c:YN /n /m "%DEL%                                >:"
-IF ERRORLEVEL ==Y GOTO 1
-IF ERRORLEVEL ==N GOTO 2
+	choice.exe /c:YN /n /m "%DEL%                                >:"
+	if errorlevel == 1 (
+		"%SystemRoot%\System32\curl.exe" -L -o %0 "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Comandos.bat" >nul 2>&1
+		call %0
+		exit /b
+	)
+)
 
-:1
-curl -L -o %0 "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Comandos.bat" >nul 2>&1
-call %0
-exit /b
 
-:2
-goto titulo1
-	
 :titulot
 if "%PROCESSOR_ARCHITECTURE%"=="x86" (
-  set Titulo=%titulo1% %Version% %sinconexiona% (32 bits)
+  set Titulo=%titulo1% %Versiondos% %sinconexiona% (32 bits)
 ) else (
-  set Titulo=%titulo1% %Version% %sinconexiona% (64 bits)
+  set Titulo=%titulo1% %Versiondos% %sinconexiona% (64 bits)
 )
 
 REM Modos de iniciar
@@ -223,7 +220,7 @@ REM 						Menu de inicio
 :menu                                                    
 	cls
 	echo ==================================================
-	echo ║                      MENU                      ║
+	echo                        MENU                      
 	echo ==================================================
 	echo * 1) Eliminar achivos malos                      *
 	echo * 2) Ip                                          *
