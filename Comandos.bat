@@ -4,23 +4,23 @@ Setlocal EnableDelayedExpansion
 
 REM chcp 65001
 REM Colores
-set fore_black=[30m
-set fore_dred=[31m
-set fore_dgreen=[32m
-set fore_dyellow=[33m
-set fore_dblue=[34m
-set fore_dmagenta=[35m
-set fore_dcyan=[36m
-set fore_dwhite=[37m
+set cnegron=[30m
+set crojo=[31m
+set cverde=[32m
+set camarillo=[33m
+set cazul=[34m
+set clila=[35m
+set ccyan=[36m
+set cblancop=[37m
  
-set fore_bblack=[90m
-set fore_bred=[91m
-set fore_bgreen=[92m
-set fore_byellow=[93m
-set fore_bblue=[94m
-set fore_bmagenta=[95m
-set fore_bcyan=[96m
-set fore_bwhite=[97m
+set fnegro=[90m
+set frojo=[91m
+set fverde=[92m
+set famarillo=[93m
+set fazul=[94m
+set flila=[95m
+set fcyan=[96m
+set fblanco=[97m
 
 REM Ruta general
 set Beta=Alfa
@@ -46,26 +46,26 @@ goto sinconexioni
 ) 
 
 :CheckForUpdates
-set Version=2.14
+set Version=2.14.3
 set Versiontwo=%Version%
-if exist "%ruta%" DEL /S /Q /F "%ruta%" >nul 2>&1
-"%SystemRoot%\System32\curl.exe" -g -L -# -o "%ruta%" "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Update" >nul 2>&1
-call "%ruta%"
-if "%Version%" gtr "%Versiontwo%" (
+if exist "%ruta%\Updater.bat" DEL /S /Q /F "%ruta%\Updater.bat" >nul 2>&1
+"%SystemRoot%\System32\curl.exe" -g -L -# -o "%ruta%\Updater.bat" "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Update" >nul 2>&1
+call "%ruta%\Updater.bat"
+if "%Versiontwo%" gtr "%Version%" (
 	cls
 	echo.
-	echo  --------------------------------------------------------------
+	echo %camarillo% --------------------------------------------------------------
 	echo                           Update found
-	echo  --------------------------------------------------------------
+	echo %camarillo% --------------------------------------------------------------
 	echo.
-	echo                          Mi version: %Versiontwo%
+	echo %camarillo%                         Mi version: %Versiontwo%
 	echo.
-	echo                          Nueva version: %Version%
+	echo %camarillo%                         Nueva version: %Version%
 	echo.
 	echo.
 	echo.
-	echo      [Y] Yes, Update
-	echo      [N] No
+	echo %camarillo%     [Y] Yes, Update
+	echo %camarillo%     [N] No
 	echo.
 	"%SystemRoot%\System32\choice.exe" /c:YN /n /m "%DEL%                                >:"
 	set "choice=!errorlevel!"
@@ -105,13 +105,13 @@ timeout /T 5 >nul
 REM Programas necesarios para iniciar
 
 IF EXIST %winrarexe% (
-echo [+]Progama Istalado Exitosa WinRAR & timeout /T 5 >nul
+echo %cverde%[+]Progama Istalado Exitosa WinRAR & timeout /T 5 >nul
 goto admin
 ) else if "%wifi%"=="true" (
-echo [+]Programas Necesarios WinRAR & timeout /T 5 >nul
+echo %crojo%[+]Programas Necesarios WinRAR & timeout /T 5 >nul
 goto desrar
 ) else (
-echo [+]Estas sin conexion de internet & timeout /T 5 >nul
+echo %camarillo%[+]Estas sin conexion de internet & timeout /T 5 >nul
 goto admin
 )
 
@@ -127,13 +127,13 @@ goto admin
 
 :admin
 IF EXIST %admin%\PowerRun_x64.exe (
-echo [+]Progama Istalado Exitosa PowerRun & timeout /T 5 >nul
+echo %cverde%[+]Progama Istalado Exitosa PowerRun & timeout /T 5 >nul
 goto wget1
 ) else if "%wifi%"=="true" (
-echo [+]Programas Necesarios PowerRun & timeout /T 5 >nul
+echo %crojo%[+]Programas Necesarios PowerRun & timeout /T 5 >nul
 goto admindes
 ) else (
-echo [+]Estas sin conexion de internet & timeout /T 5 >nul
+echo %camarillo%[+]Estas sin conexion de internet & timeout /T 5 >nul
 goto wget1
 )
 
@@ -159,22 +159,22 @@ set wgetvof=n
 
 if "%wgetvof%"=="y" (
 IF EXIST C:\Windows\System32\wget.exe ( 
-echo [+]Progama Istalado Exitosa Wget [administracion] & timeout /T 5 >nul 
+echo %cverde%[+]Progama Istalado Exitosa Wget [administracion] & timeout /T 5 >nul 
 goto menu
 ) else if "%wifi%"=="true" (
-echo [+]Programas Necesarios Wget [administracion] & timeout /T 5 >nul
+echo %crojo%[+]Programas Necesarios Wget [administracion] & timeout /T 5 >nul
 goto wgetinstalar
 ) else (
-echo [+]Estas sin conexion de internet & timeout /T 5 >nul
+echo %camarillo%[+]Estas sin conexion de internet & timeout /T 5 >nul
 goto menu
 ))
  
 if "%wgetvof%"=="n" (
 IF EXIST %Ruta%\wget.exe ( 
-echo [+]Progama Istalado Exitosa Wget [No administracion] & timeout /T 5 >nul 
+echo %cverde%[+]Progama Istalado Exitosa Wget [No administracion] & timeout /T 5 >nul 
 goto menu
 ) else if "%wifi%"=="true" (
-echo [+]Programas Necesarios Wget [No administracion] & timeout /T 5 >nul
+echo %crojo%[+]Programas Necesarios Wget [No administracion] & timeout /T 5 >nul
 goto wgetsinad
 ) else (
 echo [+]Estas sin conexion de internet & timeout /T 5 >nul
@@ -185,11 +185,10 @@ goto menu
 set rutaw="%ruta%\wget.exe"
 
 IF EXIST %Ruta%\wget.exe ( 
-echo [+]Progama Istalado Exitosa Wget [No administracion]
+echo %cverde%[+]Progama Istalado Exitosa Wget [No administracion]
 timeout /T 5 >nul
 goto menu
-) else (
-if "%PROCESSOR_ARCHITECTURE%"=="x86" (
+) else if "%PROCESSOR_ARCHITECTURE%"=="x86" (
 cd %ruta%
 powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.3/32/wget.exe' -OutFile 'wget.exe'
 echo.
@@ -219,9 +218,10 @@ goto menu
 
 REM 						Menu de inicio
 :menu                                                    
+%fblanco%
 	cls
 	echo ==================================================
-	echo                        MENU                      
+	echo =                       MENU                     =
 	echo ==================================================
 	echo * 1) Eliminar achivos malos                      *
 	echo * 2) Ip                                          *
@@ -258,11 +258,11 @@ REM 						Menu de inicio
 :: Error de comandos
 :error
 cls
-echo ==================================================
+echo %camarillo%==================================================
 echo.
-echo =        OPCION SELECCIONADA NO VALIDA!          =
+echo %camarillo%*        OPCION SELECCIONADA NO VALIDA!          *
 echo.
-echo ==================================================
+echo %camarillo%==================================================
 timeout /T 5 >nul
 goto menu
 
@@ -331,7 +331,7 @@ goto menu
 
 REM :Istalador_de_paquetes
 REM IF EXIST %programas%\Progamas.bat ( 
-REM echo [+]Progama Istalado Exitosamente & timeout /T 5 >nul
+REM echo %cverde%[+]Progama Istalado Exitosamente & timeout /T 5 >nul
 REM goto menu
 REM ) else (
 REM :: si no exite se descarga
@@ -343,7 +343,7 @@ REM )
 :admintareas
 	cls
 	echo ================================================= 
-	echo ║                      MENU                     ║
+	echo =                      MENU                     =
 	echo =================================================
 	echo = 1) Administrador de tareas                    =
 	echo = 2) Calculadora                                =
@@ -373,11 +373,11 @@ REM )
 		
 :error
 cls
-echo =================================================
+echo %camarillo%==================================================
 echo.
-echo =        OPCION SELECCIONADA NO VALIDA!         =
+echo %camarillo%*        OPCION SELECCIONADA NO VALIDA!          *
 echo.
-echo =================================================
+echo %camarillo%==================================================
 timeout /T 5 >nul
 goto admintareas
 
@@ -419,11 +419,11 @@ REM cls
 		
 REM :error
 REM cls
-REM echo =================================================
+REM echo %camarillo%==================================================
 REM echo.
-REM echo =        OPCION SELECCIONADA NO VALIDA!         =
+REM echo %camarillo%*        OPCION SELECCIONADA NO VALIDA!          *
 REM echo.
-REM echo =================================================
+REM echo %camarillo%==================================================
 REM timeout /T 5 >nul
 REM goto Combertidor_de_yt
 
@@ -527,7 +527,6 @@ REM goto m3
 
 ::64
 :64
-
 	cls
 	echo =================================================
 	echo =                      MENU                     =
@@ -560,11 +559,11 @@ REM goto m3
 :: error de comandos
 :error
 cls
-echo =================================================
+echo %camarillo%==================================================
 echo.
-echo =        OPCION SELECCIONADA NO VALIDA!         =
+echo %camarillo%=        OPCION SELECCIONADA NO VALIDA!          =
 echo.
-echo =================================================
+echo %camarillo%==================================================
 timeout /T 5 >nul
 goto 64
 
@@ -589,10 +588,10 @@ goto 64
 
 :programas1
 cd %programas%
-REM IF NOT EXIST "C:\Program Files\Java\jre1.8.0_301\bin\java.exe" echo [+]Programas necesarios Java & timeout /T 5 >nul & goto 64
+REM IF NOT EXIST "C:\Program Files\Java\jre1.8.0_301\bin\java.exe" echo %crojo%[+]Programas Necesarios Java & timeout /T 5 >nul & goto 64
 
 :: si exite se pone la aplicacion
-IF EXIST C:\Juanelbuenocopiadelosarcivos\programas\MegaBasterd.jar (
+IF EXIST %programas%\MegaBasterd.jar (
 start cmd /c java -jar MegaBasterd.jar
 goto 64
 ) else (
