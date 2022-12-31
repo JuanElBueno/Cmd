@@ -200,7 +200,7 @@ powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.3/64/wget.exe
 echo. 
 timeout /T 6 >nul 
 goto menu
-))
+)
 
 :wgetinstalar
 set rutaw="C:\Windows\System32\wget.exe"
@@ -310,7 +310,7 @@ Exit
 :: Ip cuando estas sin intertet
 :ip
 cls
-mode con: ols=70 lines=18
+mode con: cols=70 lines=18
 title Ip De Google (Acuedate de N para salir)
 ping google.es -t
 cls
@@ -357,7 +357,7 @@ REM )
 	echo = 10) Administracion de equipos                 =
 	echo = s) Salir del menu volver a anterior.          =
 	echo =================================================
-		set /p var=Seleccione una opcion [1-8]: 
+		set /p var=Seleccione una opcion [1-10]: 
 		if "%var%"=="1" call "taskmgr" & goto admintareas
 		if "%var%"=="2" call "calc" & goto admintareas
 		if "%var%"=="3" call "osk" & goto admintareas
@@ -469,7 +469,7 @@ REM goto Combertidor_de_yt
 :: menu2 de programas de descagar
 :menu2
 if "%PROCESSOR_ARCHITECTURE%"=="x86" (
-  echo Programa no compatible de 32 & timeout /T 10 >nul & goto menu
+  echo Programa no compatible de 32 bits & timeout /T 10 >nul & goto menu
 ) else (
   goto 64
 )
@@ -531,28 +531,28 @@ REM goto m3
 	echo =================================================
 	echo =                      MENU                     =
 	echo =================================================
-	echo = 1) Programas procexp64                       =
-	echo = 2) Programas MegaBasterd                     =
-	echo = 3) Programas Test de velocidad               =
-	echo = 4) Programas Autoruns64                      =
-	echo = 5) Programas Task Manager                    =
-	echo = 6) Programas Administrador de archivo        =
-	echo = 7) Programas Buscador achivos                =
-	echo = 8) Programas Descargar_Achivos               =
-	echo = 9) Salir del menu volver a anterior          =
-	echo = o) Continuacion del programa                 =	
+	echo = 1) Programas procexp64                        =
+	echo = 2) Programas MegaBasterd                      =
+	REM echo = 3) Programas Test de velocidad               =
+	echo = 3) Programas Autoruns64                       =
+	echo = 4) Programas Task Manager                     =
+	echo = 5) Programas Administrador de archivo         =
+	echo = 6) Programas Buscador achivos                 =
+	echo = 7) Programas Descargar_Achivos                =
+	echo = 8) Salir del menu volver a anterior           =
+	echo = o) Continuacion del programa                  =	
 	echo =================================================
-		set /p var=Seleccione una opcion [1-9]: 
+		set /p var=Seleccione una opcion [1-8]: 
 		:: programas de equipo de wifi
 		if "%var%"=="1" goto programas
 		if "%var%"=="2" goto programas1
-		if "%var%"=="3" goto programas2
-		if "%var%"=="4" goto programas3
-		if "%var%"=="5" goto programas4
-		if "%var%"=="6" goto programas5
-		if "%var%"=="7" goto programas6
-		if "%var%"=="8" goto programas7
-		if "%var%"=="9" goto salir
+		REM if "%var%"=="3" goto programas2
+		if "%var%"=="3" goto programas3
+		if "%var%"=="4" goto programas4
+		if "%var%"=="5" goto programas5
+		if "%var%"=="6" goto programas6
+		if "%var%"=="7" goto programas7
+		if "%var%"=="8" goto salir
 		if "%var%"=="o" goto menu3
 		:: if "%var%"=="15" goto prueba
 		
@@ -575,13 +575,12 @@ goto 64
 ) else ( 
 :: si no exite se descarga
 cd %rar% 
-%rutaw% https://download.sysinternals.com/files/ProcessExplorer.zip 
-title %Titulo%
+powershell -command iwr 'https://download.sysinternals.com/files/ProcessExplorer.zip' -OutFile 'ProcessExplorer.zip' 
 goto procexp64
 )
 :: Extraer en winrar
 :procexp64
-"%winrarexe%" x %rar%\ProcessExplorer.zip %programas%
+"%winrarexe%" x %rar%\Pro2cessExplorer.zip %programas%
 cd %programas% 
 start procexp64.exe
 goto 64
@@ -602,24 +601,24 @@ start cmd /c java -jar MegaBasterd.jar
 goto 64
 )
 
-:programas2
-cd %programas%
-:: si exite se pone la aplicacion
-IF EXIST %programas%\speedtest.exe (
-start cmd /c speedtest.exe
-goto 64
-) else (
-:: si no exite se descarga
-cd %rar% 
-powershell -command iwr 'https://install.speedtest.net/app/cli/ookla-speedtest-1.0.0-win64.zip' -OutFile 'speedtest-win64.zip'
-goto speed
-)
-:speed
-cd %rar%
-"%winrarexe%" x speedtest-win64.zip %programas%
-cd C:\Juanelbuenocopiadelosarcivos\programas
-start speedtest.exe
-goto 64
+REM :programas2
+REM cd %programas%
+REM :: si exite se pone la aplicacion
+REM IF EXIST %programas%\speedtest.exe (
+REM start cmd /c speedtest.exe
+REM goto 64
+REM ) else (
+REM :: si no exite se descarga
+REM cd %rar% 
+REM powershell -command iwr 'https://install.speedtest.net/app/cli/ookla-speedtest-1.0.0-win64.zip' -OutFile 'speedtest-win64.zip'
+REM goto speed
+REM )
+REM :speed
+REM cd %rar%
+REM "%winrarexe%" x speedtest-win64.zip %programas%
+REM cd C:\Juanelbuenocopiadelosarcivos\programas
+REM start speedtest.exe
+REM goto 64
 
 
 :programas3
@@ -716,21 +715,21 @@ goto 64
 	echo =                      MENU                     =
 	echo =================================================
 	echo = 1) Programas Examen de seguridad de Microsoft =
-	echo = 2) Programas Optimizar el windows 100%        =
-	echo = 3) Programas Spotify 100%                     =
+	REM echo = 2) Programas Optimizar el windows 100%        =
+	echo = 2) Programas Spotify 100%                     =
 	::echo = 4) Programas=
 	::echo = 5) Programas=
 	::echo = 6) Programas=
 	::echo = 7) Programas=
 	::echo = 8) Programas=
-	echo = 4) Salir del menu volver a anterior           =
+	echo = 3) Salir del menu volver a anterior           =
 	echo =================================================
 		set /p var=Seleccione una opcion [1-4]: 
 		:: programas de equipo de wifi
 		if "%var%"=="1" goto Executar1
-		if "%var%"=="2" goto Executar2
-		if "%var%"=="3" goto Executar3
-		if "%var%"=="4" goto menu2
+		REM if "%var%"=="2" goto Executar2
+		if "%var%"=="2" goto Executar3
+		if "%var%"=="3" goto menu2
 		::if "%var%"=="4" goto 
 		::if "%var%"=="5" goto 
 		::if "%var%"=="6" goto 
@@ -757,7 +756,7 @@ start MSERT.exe
 goto menu3
 )
 :: si no exite se descarga
-powershell -command iwr 'https://definitionupdates.microsoft.com/download/DefinitionUpdates/VersionedSignatures/AM/1.345.357.0/amd64/MSERT.exe' -OutFile 'MSERT.exe'
+powershell -command iwr 'https://definitionupdates.microsoft.com/download/DefinitionUpdates/VersionedSignatures/AM/1.381.1451.0/amd64/MSERT.exe' -OutFile 'MSERT.exe'
 start MSERT.exe
 goto menu3
 
@@ -787,7 +786,7 @@ goto menu3
 
 :Executar3
 powershell -Command "& {[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12}"; "& {(Invoke-WebRequest -UseBasicParsing 'https://raw.githubusercontent.com/amd64fox/SpotX/main/Install.ps1').Content | Invoke-Expression}"
-echo [+] Listo Spotify Full Sin Anuncios & timeout /T 3 >nul
+echo %cverde%[+] Listo Spotify Full Sin Anuncios%fblanco% & timeout /T 3 >nul
 
 
 goto menu3
