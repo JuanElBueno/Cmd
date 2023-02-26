@@ -23,6 +23,7 @@ set fcyan=[96m
 set fblanco=[97m
 
 REM Ruta general
+%fblanco%
 set Beta=Alfa
 set ruta=C:\Juanelbuenocopiadelosarcivos
 set programas=%ruta%\programas
@@ -70,7 +71,6 @@ if "%Version%" gtr "%Versiontwo%" (
 	set "choice=!errorlevel!"
 	if !choice! == 1 (
 		"%SystemRoot%\System32\curl.exe" -L -o %USERPROFILE%\Desktop\Comandos.bat "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Comandos.bat" >nul 2>&1
-		%fblanco%
 		call %USERPROFILE%\Desktop\Comandos.bat
 		exit /b
 	)
