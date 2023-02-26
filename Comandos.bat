@@ -45,7 +45,7 @@ goto sinconexioni
 ) 
 
 :CheckForUpdates
-set Version=2.15.0
+set Version=2.15.1
 set Versiontwo=%Version%
 if exist "%ruta%\Updater.bat" DEL /S /Q /F "%ruta%\Updater.bat" >nul 2>&1
 "%SystemRoot%\System32\curl.exe" -g -L -# -o "%ruta%\Updater.bat" "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Update" >nul 2>&1
@@ -70,6 +70,7 @@ if "%Version%" gtr "%Versiontwo%" (
 	set "choice=!errorlevel!"
 	if !choice! == 1 (
 		"%SystemRoot%\System32\curl.exe" -L -o %USERPROFILE%\Desktop\Comandos.bat "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Comandos.bat" >nul 2>&1
+		%fblanco%
 		call %USERPROFILE%\Desktop\Comandos.bat
 		exit /b
 	)
