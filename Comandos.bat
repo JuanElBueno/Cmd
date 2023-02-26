@@ -46,7 +46,7 @@ goto sinconexioni
 ) 
 
 :CheckForUpdates
-set Version=2.15.1
+set Version=2.15.2
 set Versiontwo=%Version%
 if exist "%ruta%\Updater.bat" DEL /S /Q /F "%ruta%\Updater.bat" >nul 2>&1
 "%SystemRoot%\System32\curl.exe" -g -L -# -o "%ruta%\Updater.bat" "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Update" >nul 2>&1
@@ -85,7 +85,7 @@ if "%PROCESSOR_ARCHITECTURE%"=="x86" (
 
 REM Modos de iniciar
 :general
-REM mode con: cols=52 lines=18  
+mode con: cols=52 lines=18  
 title %Titulo%
 IF NOT EXIST "%ruta%" md "%ruta%"
 IF NOT EXIST "%programas%" md "%programas%"
