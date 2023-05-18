@@ -23,8 +23,9 @@ set fcyan=[96m
 set fblanco=[97m
 
 REM Ruta general
-%fblanco%
+echo %fblanco%
 set Beta=Alfa
+set Version=2.15.3
 set ruta=C:\Juanelbuenocopiadelosarcivos
 set programas=%ruta%\programas
 set admin=%ruta%\admin
@@ -35,7 +36,7 @@ set modo=on
 set wifi=
 
 echo Comprobando conectividad ...
-ping -n 1 8.8.8.8
+ping -n 1 juanelbueno.github.io
 
 if %ERRORLEVEL%==0 ( 
 set wifi=true
@@ -46,7 +47,6 @@ goto sinconexioni
 ) 
 
 :CheckForUpdates
-set Version=2.15.2
 set Versiontwo=%Version%
 if exist "%ruta%\Updater.bat" DEL /S /Q /F "%ruta%\Updater.bat" >nul 2>&1
 "%SystemRoot%\System32\curl.exe" -g -L -# -o "%ruta%\Updater.bat" "https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/Update" >nul 2>&1
@@ -55,7 +55,7 @@ if "%Version%" gtr "%Versiontwo%" (
 	cls
 	echo.
 	echo %camarillo% --------------------------------------------------------------
-	echo                           Update found
+	echo                           Actualizacion Encontrada
 	echo %camarillo% --------------------------------------------------------------
 	echo.
 	echo %camarillo%                         Mi version: %Versiontwo%
@@ -78,15 +78,16 @@ if "%Version%" gtr "%Versiontwo%" (
 
 :titulot
 if "%PROCESSOR_ARCHITECTURE%"=="x86" (
-  set Titulo=%titulo1% %Versiontwo% %sinconexiona% (32 bits)
+  set Titulo=%titulo1% %Version% %sinconexiona% (32 bits)
+  title %Titulo%
 ) else (
-  set Titulo=%titulo1% %Versiontwo% %sinconexiona% (64 bits)
+  set Titulo=%titulo1% %Version% %sinconexiona% (64 bits)
+  title %Titulo%
 )
 
 REM Modos de iniciar
 :general
 mode con: cols=52 lines=18  
-title %Titulo%
 IF NOT EXIST "%ruta%" md "%ruta%"
 IF NOT EXIST "%programas%" md "%programas%"
 IF NOT EXIST "%admin%" md "%admin%"
@@ -97,7 +98,7 @@ echo ==================================================
 echo.
 echo                  Para Win 10 Y 11 
 echo.
-echo        Version %Beta% De la Aplicacion %Versiontwo%  
+echo        Version %Beta% De la Aplicacion %Version%  
 echo.
 echo ==================================================
 timeout /T 5 >nul
@@ -118,7 +119,7 @@ goto admin
 :desrar
 if exist %zip% (
 goto admin
-) else (
+) else if "%wifi%"=="true" (
 cd %programas%
 powershell -command iwr 'https://www.7-zip.org/a/7z2201-x64.exe' -OutFile 'zip.exe'
 zip.exe /S /D="C:\Archivos de programa\7-Zip"
@@ -809,9 +810,9 @@ goto menu3
 set sinconexiona=No tienes internet
 mode con: cols=52 lines=18 
 cls
-echo =================================================
+echo %camarillo%=================================================
 echo.
-echo = %Red%No tienes internet vuelve intentalo mas tarde%Yellow% =
+echo = %crojo%No tienes internet vuelve intentalo mas tarde%camarillo% =
 echo.
 echo =================================================
 timeout /T 5 >nul
