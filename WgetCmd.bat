@@ -3,7 +3,7 @@ color 9f
 
 set Version=V1.3.9
 
-ping -n 1 8.8.8.8
+ping -n 1 juanelbueno.github.io
 if %ERRORLEVEL% == 1 goto sinconexioni
 
 :titulot
