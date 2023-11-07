@@ -25,7 +25,7 @@ set fblanco=[97m
 REM Ruta general
 echo %fblanco%
 set Beta=Alfa
-set Version=2.15.4
+set Version=2.15.5
 set ruta=C:\Juanelbuenocopiadelosarcivos
 set programas=%ruta%\programas
 set admin=%ruta%\admin
@@ -55,7 +55,7 @@ if "%Version%" gtr "%Versiontwo%" (
 	cls
 	echo.
 	echo %camarillo% --------------------------------------------------------------
-	echo                           Actualizacion Encontrada
+	echo                             Actualizacion Encontrada
 	echo %camarillo% --------------------------------------------------------------
 	echo.
 	echo %camarillo%                         Mi version: %Versiontwo%
@@ -66,7 +66,7 @@ if "%Version%" gtr "%Versiontwo%" (
 	echo.
 	echo %camarillo%     [Y] Yes, Update
 	echo %camarillo%     [N] No
-	echo.
+	echo %fblanco%
 	"%SystemRoot%\System32\choice.exe" /c:YN /n /m "%DEL%                                >:"
 	set "choice=!errorlevel!"
 	if !choice! == 1 (
@@ -228,7 +228,7 @@ goto menu
 
 REM 						Menu de inicio
 :menu                                                    
-%fblanco%
+echo %fblanco%
 	cls
 	echo ==================================================
 	echo =                       MENU                     =
@@ -296,7 +296,7 @@ pause
 mode con: cols=50 lines=18  
 goto menu
 
-:: Achivos borrados %tempoales%
+:: Achivos borrados tempoales
 :deltemp
 cls
 cd %temp%
@@ -545,7 +545,7 @@ REM goto m3
 	echo =================================================
 	echo = 1) Programas procexp64                        =
 	echo = 2) Programas MegaBasterd                      =
-	echo = 3) Programas Test de velocidad                =
+	echo = 3) Programas Test de velocidad               =
 	echo = 4) Programas Autoruns64                       =
 	echo = 5) Programas Task Manager                     =
 	echo = 6) Programas Administrador de archivo         =
@@ -600,20 +600,42 @@ start procexp64.exe
 goto 64
 
 :programas1
-cd %programas%
+goto 64
+REM IF NOT EXIST "%programas%\mega" md "%programas%\mega"
+REM cd "%programas%\mega"
 REM IF NOT EXIST "C:\Program Files\Java\jre1.8.0_301\bin\java.exe" echo %crojo%[+]Programas Necesarios Java & timeout /T 5 >nul & goto 64
 
-:: si exite se pone la aplicacion
-IF EXIST %programas%\MegaBasterd.jar (
-start cmd /c java -jar MegaBasterd.jar
-goto 64
-) else (
-:: si no exite se descarga
-powershell -command iwr 'https://github.com/tonikelope/megabasterd/releases/download/v7.50/MegaBasterd_7.50.jar' -OutFile 'MegaBasterd.jar' 
-cd %programas% 
-start cmd /c java -jar MegaBasterd.jar
-goto 64
-)
+REM :: si exite se pone la aplicacion
+REM IF EXIST "%programas%\mega\MegaBasterdWINDOWS\MegaBasterd.bat" (
+REM start "%programas%\mega\MegaBasterd.bat"
+REM goto 64
+REM ) else (
+REM :: si no exite se descarga
+REM powershell -command iwr 'https://github.com/tonikelope/megabasterd/releases/download/v7.76/MegaBasterdWINDOWS_7.76_portable.zip' -OutFile 'MegaBasterdWINDOWSportable.zip' 
+REM goto megarar
+REM )
+
+REM :megarar
+REM %zip% x MegaBasterdWINDOWSportable.zip -o%programas%\mega -y
+REM cd %programas%\mega\MegaBasterdWINDOWS
+REM start "%programas%\mega\MegaBasterdWINDOWS\MegaBasterd.bat"
+REM pause
+REM goto 64
+
+
+REM IF NOT EXIST "C:\Program Files\Java\jre1.8.0_301\bin\java.exe" echo %crojo%[+]Programas Necesarios Java & timeout /T 5 >nul & goto 64
+
+REM :: si exite se pone la aplicacion
+REM IF EXIST %programas%\MegaBasterd.jar (
+REM start cmd /c java -jar MegaBasterd.jar
+REM goto 64
+REM ) else (
+REM :: si no exite se descarga
+REM powershell -command iwr 'https://github.com/tonikelope/megabasterd/releases/download/v7.50/MegaBasterd_7.50.jar' -OutFile 'MegaBasterd.jar' 
+REM cd %programas% 
+REM start cmd /c java -jar MegaBasterd.jar
+REM goto 64
+REM )
 
 :programas2
 cd %programas%
@@ -800,7 +822,7 @@ REM pause
 REM goto menu3
 
 :Executar3
-powershell -Command "& {[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12}"; "& {(Invoke-WebRequest -UseBasicParsing 'https://raw.githubusercontent.com/amd64fox/SpotX/main/Install.ps1').Content | Invoke-Expression}"
+powershell -Command "& {[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12}"; "& {(Invoke-WebRequest -UseBasicParsing 'https://raw.githubusercontent.com/SpotX-Official/SpotX/main/run.ps1').Content | Invoke-Expression}"
 echo %cverde%[+] Listo Spotify Full Sin Anuncios%fblanco% & timeout /T 3 >nul
 
 
