@@ -1,7 +1,7 @@
 @echo off
 color 9f
 
-set Version=V1.3.9
+set Version=V1.4
 
 ping -n 1 juanelbueno.github.io
 if %ERRORLEVEL% == 1 goto sinconexioni
@@ -23,10 +23,11 @@ Exit
 ) else (
 goto 32o64
 )
+
 :32o64
 if "%PROCESSOR_ARCHITECTURE%"=="x86" (
 cd C:\Windows\System32
-powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.3/32/wget.exe' -OutFile 'wget.exe'
+powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.4/32/wget.exe' -OutFile 'wget.exe'
 echo Usando 32bits 
 echo.
 echo [+] Salendo...
@@ -34,7 +35,7 @@ timeout /T 6 >nul
 Exit
 ) else (
 cd C:\Windows\System32
-powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.3/64/wget.exe' -OutFile 'wget.exe'
+powershell -command iwr 'https://eternallybored.org/misc/wget/1.21.4/64/wget.exe' -OutFile 'wget.exe'
 echo Usando 64bits
 echo.
 echo [+] Salendo... 
