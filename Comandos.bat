@@ -25,7 +25,7 @@ set fblanco=[97m
 REM Ruta general
 echo %fblanco%
 set Beta=Alfa
-set Version=2.15.5
+set Version=2.16.1
 set ruta=C:\Juanelbuenocopiadelosarcivos
 set programas=%ruta%\programas
 set admin=%ruta%\admin
@@ -220,7 +220,7 @@ goto menu
 ) else (
 cd %ruta% 
 powershell -command iwr 'https://raw.githubusercontent.com/JuanElBueno/Command-Cmd/main/WgetCmd.bat' -OutFile 'WgetCmd.bat'
-start WgetCmd.bat
+call WgetCmd.bat
 mode con: cols=50 lines=18 
 timeout /T 17 >nul
 goto menu
@@ -822,8 +822,19 @@ REM pause
 REM goto menu3
 
 :Executar3
+set /p Spotifyon= Quieres con Plugins o sin Plugin y/n=
+
+if "%Spotifyon%"=="y" ( 
+powershell iwr -useb https://raw.githubusercontent.com/spicetify/marketplace/main/resources/install.ps1 | iex
+echo %cverde%[+] Listo Spotify Full Sin Anuncios%fblanco% & timeout /T 3 >nul
+)
+ 
+if "%Spotifyon%"=="y" ( 
 powershell -Command "& {[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12}"; "& {(Invoke-WebRequest -UseBasicParsing 'https://raw.githubusercontent.com/SpotX-Official/SpotX/main/run.ps1').Content | Invoke-Expression}"
 echo %cverde%[+] Listo Spotify Full Sin Anuncios%fblanco% & timeout /T 3 >nul
+goto menu 3
+)
+
 
 
 goto menu3
