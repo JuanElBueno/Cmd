@@ -1,7 +1,7 @@
 @echo off
 color 9f
 
-set Version=V1.4
+set Version=V1.4.1
 
 ping -n 1 juanelbueno.github.io
 if %ERRORLEVEL% == 1 goto sinconexioni
