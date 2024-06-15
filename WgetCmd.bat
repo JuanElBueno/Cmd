@@ -10,8 +10,10 @@ if %ERRORLEVEL% == 1 goto sinconexioni
 
 if "%PROCESSOR_ARCHITECTURE%"=="x86" (
   set Titulo=Juan El Bueno %Version% (32 bits)
+   title %Titulo%
 ) else (
   set Titulo=Juan El Bueno %Version% (64 bits)
+   title %Titulo%
 )
 
 IF EXIST C:\Windows\System32\wget.exe ( 
