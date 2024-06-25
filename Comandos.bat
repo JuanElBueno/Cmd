@@ -25,7 +25,7 @@ set fblanco=[97m
 REM Ruta general
 echo %fblanco%
 set Beta=Alfa
-set Version=2.16.1
+set Version=2.16.1.1
 set ruta=C:\Juanelbuenocopiadelosarcivos
 set programas=%ruta%\programas
 set admin=%ruta%\admin
