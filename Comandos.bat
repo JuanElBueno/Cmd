@@ -822,20 +822,18 @@ REM pause
 REM goto menu3
 
 :Executar3
-set /p Spotifyon= Quieres con Plugins o sin Plugin y/n=
+set /p Spotifyon=Quieres con Plugins o sin Plugin y/n=
 
 if "%Spotifyon%"=="y" ( 
-powershell iwr -useb https://raw.githubusercontent.com/spicetify/marketplace/main/resources/install.ps1 | iex
+powershell -Command "& {[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12}"; "& {(Invoke-WebRequest -UseBasicParsing 'https://raw.githubusercontent.com/spicetify/marketplace/main/resources/install.ps1').Content | Invoke-Expression}"
 echo %cverde%[+] Listo Spotify Full Sin Anuncios%fblanco% & timeout /T 3 >nul
 )
  
-if "%Spotifyon%"=="y" ( 
+if "%Spotifyon%"=="n" ( 
 powershell -Command "& {[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12}"; "& {(Invoke-WebRequest -UseBasicParsing 'https://raw.githubusercontent.com/SpotX-Official/SpotX/main/run.ps1').Content | Invoke-Expression}"
 echo %cverde%[+] Listo Spotify Full Sin Anuncios%fblanco% & timeout /T 3 >nul
 goto menu 3
 )
-
-
 
 goto menu3
 
