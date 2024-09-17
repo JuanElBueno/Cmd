@@ -121,7 +121,7 @@ if exist %zip% (
 goto admin
 ) else if "%wifi%"=="true" (
 cd %programas%
-powershell -command iwr 'https://www.7-zip.org/a/7z2201-x64.exe' -OutFile 'zip.exe'
+powershell -command iwr 'https://www.7-zip.org/a/7z2408-x64.exe' -OutFile 'zip.exe'
 zip.exe /S /D="C:\Program Files\7-Zip"
 goto admin
 )
