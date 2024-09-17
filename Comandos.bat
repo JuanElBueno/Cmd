@@ -25,7 +25,7 @@ set fblanco=[97m
 REM Ruta general
 echo %fblanco%
 set Beta=Alfa
-set Version=2.16.1.1
+set Version=2.16.1.9
 set ruta=C:\Juanelbuenocopiadelosarcivos
 set programas=%ruta%\programas
 set admin=%ruta%\admin
@@ -122,7 +122,7 @@ goto admin
 ) else if "%wifi%"=="true" (
 cd %programas%
 powershell -command iwr 'https://www.7-zip.org/a/7z2201-x64.exe' -OutFile 'zip.exe'
-zip.exe /S /D="C:\Archivos de programa\7-Zip"
+zip.exe /S /D="C:\Program Files\7-Zip"
 goto admin
 )
 
